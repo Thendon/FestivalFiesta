@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class VehicleSoundController : MonoBehaviour
 {
-    public FMOD.Studio.EventInstance instance;
-    public FMODUnity.EventReference fmodEvent;
+    private FMOD.Studio.EventInstance instance;
 
-    [Range(0f, 10000f)]
-    public float motorRPM;
-    [Range(0f, 1f)]
-    public float load;
+    private const float MIN_RPM = 0;
+    private const float MAX_RPM = 10000;
+    private const float MIN_LOAD = -1;
+    private const float MAX_LOAD = 1;
+
+    [SerializeField, Range(MIN_RPM, MAX_RPM)]
+    private float motorRPM;
+    [SerializeField, Range(MIN_LOAD, MAX_LOAD)]
+    private float load;
 
     void Awake()
     {
-        instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
+        instance = FMODUnity.RuntimeManager.CreateInstance("event:/Vehicles/Car Engine");
     }
 
     void Start()
@@ -48,6 +52,22 @@ public class VehicleSoundController : MonoBehaviour
     {
         instance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         instance.setParameterByName("parameter:/Vehicles/Car Engine/RPM", motorRPM);
-        instance.setParameterByName("parameter:/Vehicles/Car Engine/Load", load);
+        instance.setParameterByName("parameter:/Vehicles/Load", load);
+    }
+
+    /// <summary>
+    /// Range [0, 10.000]
+    /// </summary>
+    public void SetMotorRPM(float rpm)
+    {
+        rpm = Mathf.Clamp(rpm, MIN_RPM, MAX_RPM);
+    }
+
+    /// <summary>
+    /// Range [-1, -1]
+    /// </summary>
+    public void SetMotorLoad(float load)
+    {
+        load = Mathf.Clamp(load, MIN_LOAD, MAX_LOAD);
     }
 }

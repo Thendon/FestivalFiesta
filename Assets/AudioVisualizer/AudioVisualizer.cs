@@ -18,7 +18,7 @@ public class AudioVisualizer : MonoBehaviour
     private void Start()
     {
         instances = new GameObject[audioData.sampleCount];
-        float circleFactor = (1.0f / audioData.sampleCount) * 360.0f;
+        float circleFactor = (1.0f / audioData.sampleCount) * Mathf.PI * 2.0f;
         for (int i = 0; i < audioData.sampleCount; i++)
         {
             GameObject instance = Instantiate(prefab, transform);

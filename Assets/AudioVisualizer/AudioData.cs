@@ -21,6 +21,7 @@ public class AudioData : MonoBehaviour
 
         //waaaas florian beherrscht bitshifting magic? ?? ? 
         sampleCount = 1 << sampleCountPower;
+        sampleCount = Mathf.Clamp(64, sampleCount, 8192);
         samples = new float[sampleCount];
     }
 
@@ -31,6 +32,28 @@ public class AudioData : MonoBehaviour
 
         audioSource.GetSpectrumData(samples, 0, FFTWindow.Rectangular);
 
+    }
+
+    void MakeFrequenzyBands()
+    {
+        int count = 0;
+
+        for (int i = 0; i < 8; i++)
+        {
+            float sum = 0;
+            int sampleCount = (int)Mathf.Pow(2, i) * 2;
+            if(i == 7)
+            {
+                sampleCount += 2;
+            }
+            for (int j = 0; j < sampleCount; j++)
+            {
+                sum += samples[count] * (count + 1);
+                count++;
+            }
+
+            freqBand[i] = sum / count;
+        }
     }
 
     private void OnDrawGizmosSelected()

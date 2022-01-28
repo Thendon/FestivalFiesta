@@ -1,15 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicManager : MonoBehaviour
+public class VehicleSoundController : MonoBehaviour
 {
     public FMOD.Studio.EventInstance instance;
     public FMODUnity.EventReference fmodEvent;
 
+    [Range(0f, 10000f)]
+    public float motorRPM;
     [Range(0f, 1f)]
-    public float progress;
-
-    public Genre playerGenre;
-    public Genre enemyGenre;
+    public float load;
 
     void Awake()
     {
@@ -28,20 +29,16 @@ public class MusicManager : MonoBehaviour
             Debug.LogError("[MusicManager] EventInstance is invalid");
             return;
         }
-
-        instance.setParameterByName("parameter:/Music/Fight/Genre 1", (int)playerGenre);
-        instance.setParameterByName("parameter:/Music/Fight/Genre 2", (int)enemyGenre);
-
         instance.start();
     }
 
-    public void StopMusic()
+    public void OnDisable()
     {
         instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         instance.release();
     }
 
-    public void KillMusic()
+    public void OnDestroy()
     {
         instance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         instance.release();
@@ -49,6 +46,8 @@ public class MusicManager : MonoBehaviour
 
     void Update()
     {
-        instance.setParameterByName("parameter:/Music/Fight/Progress", progress);
+        instance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        instance.setParameterByName("parameter:/Vehicles/Car Engine/RPM", motorRPM);
+        instance.setParameterByName("parameter:/Vehicles/Car Engine/Load", load);
     }
 }

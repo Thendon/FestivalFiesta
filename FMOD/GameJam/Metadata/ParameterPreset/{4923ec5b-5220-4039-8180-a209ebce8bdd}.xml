@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{4923ec5b-5220-4039-8180-a209ebce8bdd}">
+		<property name="name">
+			<value>Genre 1</value>
+		</property>
+		<relationship name="folder">
+			<destination>{3c87b132-5365-4960-895b-15c67f8b0ec2}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{e4e5aa02-066e-4212-9949-07eaf1b0665b}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{e4e5aa02-066e-4212-9949-07eaf1b0665b}">
+		<property name="parameterType">
+			<value>2</value>
+		</property>
+		<property name="maximum">
+			<value>8</value>
+		</property>
+		<property name="enumerationLabels">
+			<value>Metal</value>
+			<value>Blues</value>
+			<value>Techno</value>
+			<value>Vaporwave</value>
+			<value>Schlager</value>
+			<value>Orchester</value>
+			<value>Chiptune</value>
+			<value>Kinderlieder</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

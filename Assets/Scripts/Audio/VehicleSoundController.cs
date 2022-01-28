@@ -21,16 +21,11 @@ public class VehicleSoundController : MonoBehaviour
         instance = FMODUnity.RuntimeManager.CreateInstance("event:/Vehicles/Car Engine");
     }
 
-    void Start()
-    {
-        StartMusic();
-    }
-
-    public void StartMusic()
+    public void Start()
     {
         if (!instance.isValid())
         {
-            Debug.LogError("[MusicManager] EventInstance is invalid");
+            Debug.LogError("[VehicleSoundController] EventInstance is invalid");
             return;
         }
         instance.start();

@@ -38,11 +38,13 @@ public class MusicManager : MonoBehaviour
     public void StopMusic()
     {
         instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        instance.release();
     }
 
     public void KillMusic()
     {
         instance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        instance.release();
     }
 
     void Update()

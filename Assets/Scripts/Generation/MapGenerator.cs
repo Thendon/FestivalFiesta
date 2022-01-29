@@ -28,8 +28,6 @@ public class MapGenerator : MonoBehaviour
 
     List<Vector2> points = new List<Vector2>();
 
-    public int innerRange;
-    public int outerRange;
     public GameObject[] spawnables;
     public Transform player;
     public int spawnLimit;

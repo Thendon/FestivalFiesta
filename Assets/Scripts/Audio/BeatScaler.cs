@@ -9,6 +9,8 @@ public class BeatScaler : MonoBehaviour
 
     public AnimationCurve scaleCurve;
 
+    public GameObject[] objectsToScale;
+
     float t = 0;
 
     void ScaleToBeat()
@@ -20,9 +22,17 @@ public class BeatScaler : MonoBehaviour
     { 
         t = Mathf.Clamp01(t - Time.deltaTime);
         Vector3 scale = Vector3.LerpUnclamped(scaleNormal, scaleBeat, scaleCurve.Evaluate(t));
-        transform.localScale = scale;
-    }
 
+        if (objectsToScale != null && objectsToScale.Length > 0)
+        {
+            foreach (var obj in objectsToScale)
+                obj.transform.localScale = scale;
+        } 
+        else
+        {
+            transform.localScale = scale;
+        }   
+    }
 
     void OnEnable()
     {

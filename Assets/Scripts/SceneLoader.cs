@@ -11,6 +11,8 @@ public class SceneLoader : MonoBehaviour
     [SerializeField]
     string gameScene;
 
+    public string selectedGenre { get; private set; } = "";
+
     public void Exit()
     {
         print("Quit Game");
@@ -37,6 +39,7 @@ public class SceneLoader : MonoBehaviour
 
     void LoadScene(string scenename)
     {
+        print("Load Scene " + scenename);
         SceneManager.LoadScene(scenename);
     }
 
@@ -48,6 +51,7 @@ public class SceneLoader : MonoBehaviour
 
     public void StartRound(string genre)
     {
+        selectedGenre = genre;
         onGameStart?.Invoke();
         LoadScene(gameScene);
     }

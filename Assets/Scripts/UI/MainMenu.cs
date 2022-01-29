@@ -24,6 +24,7 @@ public class MainMenu : MonoBehaviour
         loader.onMainMenu += () => SceneChange(true);
 
         OpenMainPage();
+        SceneChange(true);
     }
 
     private void Update()
@@ -36,8 +37,8 @@ public class MainMenu : MonoBehaviour
     {
         playButton.SetActive(mainMenu);
         homeButton.SetActive(!mainMenu);
-        Toggle(false);
         OpenMainPage();
+        Toggle(mainMenu);
     }
 
     public void OpenMainPage()

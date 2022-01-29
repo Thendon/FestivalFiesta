@@ -313,6 +313,7 @@ MonoBehaviour:
   homeButton: {fileID: 1841617285}
   mainPage: {fileID: 1145448434}
   selectionPage: {fileID: 1275953325}
+  loader: {fileID: 1102868263}
 --- !u!1 &232468953
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,7 +541,7 @@ GameObject:
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1555,13 +1556,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1207625895}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 129386076}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: OpenSelectionPage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2224,6 +2225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd4e82ed41a6cd4a8bd4b09bc6c2e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  musicManager: {fileID: 0}
   sampleCountPower: 9
   audioProfile: 0
   channel: 0
@@ -2606,8 +2608,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1102868263}
         m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
+        m_MethodName: MainMenu
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2875,27 +2877,27 @@ PrefabInstance:
     - target: {fileID: 1112703474778008697, guid: b653f898288333944b00364f2cbaddb7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 40.77
+      value: 12.93
       objectReference: {fileID: 0}
     - target: {fileID: 1112703474778008697, guid: b653f898288333944b00364f2cbaddb7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 44.22
       objectReference: {fileID: 0}
     - target: {fileID: 1112703474778008697, guid: b653f898288333944b00364f2cbaddb7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 35.2
+      value: -311.93
       objectReference: {fileID: 0}
     - target: {fileID: 1112703474778008697, guid: b653f898288333944b00364f2cbaddb7,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 1112703474778008697, guid: b653f898288333944b00364f2cbaddb7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 1112703474778008697, guid: b653f898288333944b00364f2cbaddb7,
         type: 3}
@@ -2910,7 +2912,7 @@ PrefabInstance:
     - target: {fileID: 1112703474778008697, guid: b653f898288333944b00364f2cbaddb7,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 1112703474778008697, guid: b653f898288333944b00364f2cbaddb7,
         type: 3}
@@ -3068,27 +3070,27 @@ PrefabInstance:
     - target: {fileID: 7880526603011777789, guid: 34ca7e1cceb140e488a05981b524e8e9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 40.77
+      value: -12.93
       objectReference: {fileID: 0}
     - target: {fileID: 7880526603011777789, guid: 34ca7e1cceb140e488a05981b524e8e9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 44.22
       objectReference: {fileID: 0}
     - target: {fileID: 7880526603011777789, guid: 34ca7e1cceb140e488a05981b524e8e9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 35.2
+      value: -311.93
       objectReference: {fileID: 0}
     - target: {fileID: 7880526603011777789, guid: 34ca7e1cceb140e488a05981b524e8e9,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 7880526603011777789, guid: 34ca7e1cceb140e488a05981b524e8e9,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 7880526603011777789, guid: 34ca7e1cceb140e488a05981b524e8e9,
         type: 3}
@@ -3103,7 +3105,7 @@ PrefabInstance:
     - target: {fileID: 7880526603011777789, guid: 34ca7e1cceb140e488a05981b524e8e9,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 7880526603011777789, guid: 34ca7e1cceb140e488a05981b524e8e9,
         type: 3}

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7672163209342982672}
   m_Layer: 0
-  m_Name: Doppelzelt
+  m_Name: DoppelzeltFinal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -39,11 +39,17 @@ public class AudioData : MonoBehaviour
     //[SerializeField]
     //AudioSource audioSource = null;
     [SerializeField]
+    public MusicManager musicManager = null;
+    [SerializeField]
     public int sampleCountPower = 9;
     [SerializeField]
     int audioProfile = 0;
     [SerializeField]
     Channel channel;
+    [SerializeField]
+    float bandDecrease1 = 0.005f;
+    [SerializeField]
+    float bandDecrease2 = 1.2f;
 
     [HideInInspector]
     public float[] samplesLeft;
@@ -60,23 +66,29 @@ public class AudioData : MonoBehaviour
     public float amplitudeBuffer { get; private set; } = 0.0f;
     float amplitudeHighest = 0.0f;
 
-    float[] freqBand8Buffer;
+    [HideInInspector]
+    public float[] freqBand8Buffer;
     float[] freqBand8Decrease;
     float[] freqBand8Highest;
     float[] audioBand8;
-    float[] audioBand8Buffer;
+    [HideInInspector]
+    public float[] audioBand8Buffer;
 
-    float[] freqBand64Buffer;
+    [HideInInspector]
+    public float[] freqBand64Buffer;
     float[] freqBand64Decrease;
     float[] freqBand64Highest;
     float[] audioBand64;
-    float[] audioBand64Buffer;
+    [HideInInspector]
+    public float[] audioBand64Buffer;
     FMOD.DSP fft;
 
     private void Awake()
     {
-        //if (audioSource != null)
+        //if (audioSource == null)
         //    audioSource = GetComponent<AudioSource>();
+        if (musicManager == null)
+            musicManager = GetComponent<MusicManager>();
 
         //waaaas florian beherrscht bitshifting magic? ?? ? 
         sampleCount = 1 << sampleCountPower;
@@ -117,6 +129,7 @@ public class AudioData : MonoBehaviour
         //    return;
 
         //audioSource.GetSpectrumData(samples, 0, FFTWindow.Rectangular);
+
         GetSpectrumData();
 
         GenerateFrequencyBands8();
@@ -166,7 +179,7 @@ public class AudioData : MonoBehaviour
         for (int i = 0; i < 8; i++)
         {
             currentAmplitude += audio[i];
-            currentAmplitudeBuffer = audioBuffer[i];
+            currentAmplitudeBuffer += audioBuffer[i];
         }
         if (currentAmplitude > amplitudeHighest)
             amplitudeHighest = currentAmplitude;
@@ -181,12 +194,12 @@ public class AudioData : MonoBehaviour
             if (band[i] > bandBuffer[i])
             {
                 bandBuffer[i] = band[i];
-                bandDecrease[i] = 0.005f;
+                bandDecrease[i] = bandDecrease1;
             }
             else if (band[i] < bandBuffer[i])
             {
                 bandBuffer[i] -= bandDecrease[i];
-                bandDecrease[i] *= 1.2f;
+                bandDecrease[i] *= bandDecrease2;
             }
         }
     }

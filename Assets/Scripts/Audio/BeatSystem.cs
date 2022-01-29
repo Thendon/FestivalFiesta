@@ -5,13 +5,24 @@ using UnityEngine;
 class BeatSystem : MonoBehaviour
 {
     public static event Action beatTickEvent;
+    public static event Action<float> beatMarkerTapEvent;
+    public static event Action<float,float> beatMarkerHoldEvent;
 
     class TimelineInfo
     {
         public int currentMusicBar = 0;
         public FMOD.StringWrapper lastMarker = new FMOD.StringWrapper();
         public float lastTick = 0;
-        public bool beatUpdate = false;
+        public bool beatTickUpdate = false;
+        
+        public float beatMarkerTime;
+        public bool beatMarkerUpdate;
+        public FMOD.StringWrapper lastBeatMarker = new FMOD.StringWrapper();
+
+        public float beatMarkerHoldTime;
+        public float beatMarkerHoldDuration;
+        public bool beatMarkerHoldUpdate;
+        public FMOD.StringWrapper lastBeatHoldMarker = new FMOD.StringWrapper();
     }
 
     TimelineInfo timelineInfo;
@@ -119,13 +130,14 @@ class BeatSystem : MonoBehaviour
                         var parameter = (FMOD.Studio.TIMELINE_BEAT_PROPERTIES)Marshal.PtrToStructure(parameterPtr, typeof(FMOD.Studio.TIMELINE_BEAT_PROPERTIES));
                         timelineInfo.currentMusicBar = parameter.bar;
                         timelineInfo.lastTick = Time.time;
-                        timelineInfo.beatUpdate = true;
+                        timelineInfo.beatTickUpdate = true;
                     }
                     break;
                 case FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER:
                     {
                         var parameter = (FMOD.Studio.TIMELINE_MARKER_PROPERTIES)Marshal.PtrToStructure(parameterPtr, typeof(FMOD.Studio.TIMELINE_MARKER_PROPERTIES));
                         timelineInfo.lastMarker = parameter.name;
+                        timelineInfo.beatMarkerUpdate = true;
                     }
                     break;
                 case FMOD.Studio.EVENT_CALLBACK_TYPE.NESTED_TIMELINE_BEAT:
@@ -143,11 +155,20 @@ class BeatSystem : MonoBehaviour
 
     void Update()
     {
-        if (timelineInfo.beatUpdate)
+        if (timelineInfo.beatTickUpdate)
         {
             TimeOfLastBeat = timelineInfo.lastTick;
             beatTickEvent?.Invoke();
-            timelineInfo.beatUpdate = false;
+            timelineInfo.beatTickUpdate = false;
+        }
+        if (timelineInfo.beatMarkerUpdate)
+        {
+            beatMarkerTapEvent?.Invoke(1f);
+            timelineInfo.beatMarkerUpdate = false;
+        }
+        if (timelineInfo.beatMarkerHoldUpdate)
+        {
+
         }
     }
 }

@@ -124,7 +124,7 @@ class BeatSystem : MonoBehaviour
     {
         if (timelineInfo.beatUpdate)
         {
-            beatTickEvent.Invoke();
+            beatTickEvent?.Invoke();
             timelineInfo.beatUpdate = false;
         }
     }

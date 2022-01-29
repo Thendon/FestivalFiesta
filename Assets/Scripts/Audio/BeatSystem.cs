@@ -1,12 +1,27 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-class BeatSystem : MonoBehaviour
+public class BeatSystem : MonoBehaviour
 {
     public static event Action beatTickEvent;
-    public static event Action<float> beatMarkerTapEvent;
-    public static event Action<float,float> beatMarkerHoldEvent;
+    public static event Action<BeatType, MarkerType, float> markerEvent;
+
+    public enum BeatType
+    {
+        Error,
+        Melody,
+        Drums
+    }
+
+    public enum MarkerType
+    {
+        Error,
+        Tap,
+        StartRegion,
+        EndRegion
+    }
 
     class TimelineInfo
     {
@@ -17,12 +32,11 @@ class BeatSystem : MonoBehaviour
         
         public float beatMarkerTime;
         public bool beatMarkerUpdate;
+        // NOTE(Steffen): There could be multiple markers on one frame, i.e. EndRegion and StartRegion
+        public List<BeatType> beatTypes = new List<BeatType>();
+        public List<MarkerType> markerTypes = new List<MarkerType>();
+        public List<float> callbackTime = new List<float>();
         public FMOD.StringWrapper lastBeatMarker = new FMOD.StringWrapper();
-
-        public float beatMarkerHoldTime;
-        public float beatMarkerHoldDuration;
-        public bool beatMarkerHoldUpdate;
-        public FMOD.StringWrapper lastBeatHoldMarker = new FMOD.StringWrapper();
     }
 
     TimelineInfo timelineInfo;
@@ -137,7 +151,32 @@ class BeatSystem : MonoBehaviour
                     {
                         var parameter = (FMOD.Studio.TIMELINE_MARKER_PROPERTIES)Marshal.PtrToStructure(parameterPtr, typeof(FMOD.Studio.TIMELINE_MARKER_PROPERTIES));
                         timelineInfo.lastMarker = parameter.name;
+                        string stringName = parameter.name;
+                        BeatType beatType = BeatType.Error;
+                        MarkerType markerType = MarkerType.Error;
+
+                        string[] tokens = stringName.Split('_');
+                        Debug.Assert(tokens.Length == 2, "Marker does not have required format: " + stringName);
+
+                        switch (tokens[0])
+                        {
+                            case "Drum": beatType = BeatType.Drums; break;
+                            case "Melody": beatType = BeatType.Melody; break;
+                            default: Debug.LogError("Unknown beat type for marker" + stringName); break;
+                        }
+
+                        switch (tokens[1])
+                        {
+                            case "TapMarker": markerType = MarkerType.Tap; break;
+                            case "StartRegion": markerType = MarkerType.StartRegion; break;
+                            case "EndRegion": markerType = MarkerType.EndRegion; break;
+                            default: Debug.LogError("Unknown marker type for marker" + stringName); break;
+                        }
+
                         timelineInfo.beatMarkerUpdate = true;
+                        timelineInfo.markerTypes.Add(markerType);
+                        timelineInfo.beatTypes.Add(beatType);
+                        timelineInfo.callbackTime.Add(Time.realtimeSinceStartup);
                     }
                     break;
                 case FMOD.Studio.EVENT_CALLBACK_TYPE.NESTED_TIMELINE_BEAT:
@@ -163,12 +202,18 @@ class BeatSystem : MonoBehaviour
         }
         if (timelineInfo.beatMarkerUpdate)
         {
-            beatMarkerTapEvent?.Invoke(1f);
+            for (int i = 0; i < timelineInfo.beatTypes.Count; i++)
+            {
+                BeatType beatType = timelineInfo.beatTypes[i];
+                MarkerType markerType = timelineInfo.markerTypes[i];
+                float callbackTime = timelineInfo.callbackTime[i];
+                markerEvent?.Invoke(beatType, markerType, callbackTime);
+            }
+            
             timelineInfo.beatMarkerUpdate = false;
-        }
-        if (timelineInfo.beatMarkerHoldUpdate)
-        {
-
+            timelineInfo.beatTypes.Clear();
+            timelineInfo.markerTypes.Clear();
+            timelineInfo.callbackTime.Clear();
         }
     }
 }

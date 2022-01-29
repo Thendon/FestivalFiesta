@@ -11,7 +11,9 @@ public class AudioVisualizer : MonoBehaviour
     [SerializeField]
     GameObject freqBandPrefab = null;
     [SerializeField]
-    float maxHeight = 10.0f;
+    float maxHeightFreq = 10.0f;
+    [SerializeField]
+    float maxHeightBand = 10.0f;
     [SerializeField]
     float sampleDistance = 100.0f;
     [SerializeField]
@@ -19,14 +21,16 @@ public class AudioVisualizer : MonoBehaviour
 
     GameObject[] sampleInstances = null;
     GameObject[] freqBandInstances = null;
+    GameObject[] freqBandInstances2 = null;
 
     private void Start()
     {
-        sampleInstances = new GameObject[audioData.sampleCount];
         float circleFactor = (1.0f / audioData.sampleCount) * Mathf.PI * 2.0f;
+        GameObject container = new GameObject("sample");
+        sampleInstances = new GameObject[audioData.sampleCount];
         for (int i = 0; i < audioData.sampleCount; i++)
         {
-            GameObject instance = Instantiate(samplePrefab, transform);
+            GameObject instance = Instantiate(samplePrefab, container.transform);
             instance.name = "sample_" + i;
             float pos = i * circleFactor;
 
@@ -37,23 +41,44 @@ public class AudioVisualizer : MonoBehaviour
             sampleInstances[i] = instance;
         }
 
-        freqBandInstances = new GameObject[audioData.freqBandCount];
-        for (int i = 0; i < audioData.freqBandCount; i++)
+        container = new GameObject("freqBand8");
+        freqBandInstances = new GameObject[8];
+        for (int i = 0; i < 8; i++)
         {
-            GameObject instance = Instantiate(freqBandPrefab, transform);
-            instance.name = "freqBand_" + i;
+            GameObject instance = Instantiate(freqBandPrefab, container.transform);
+            instance.name = "freqBand8_" + i;
 
             Vector3 pos = transform.position;
-            pos.x += i * freqBandDistance - audioData.freqBandCount * freqBandDistance * 0.5f;
+            pos.x += i * freqBandDistance - 8 * freqBandDistance * 0.5f;
             instance.transform.position = pos;
 
             freqBandInstances[i] = instance;
+        }
+
+        container = new GameObject("freqBand64");
+        freqBandInstances2 = new GameObject[64];
+        for (int i = 0; i < 64; i++)
+        {
+            GameObject instance = Instantiate(freqBandPrefab, container.transform);
+            instance.name = "freqBand64_" + i;
+
+            Vector3 pos = transform.position;
+            pos.z += 10.0f;
+            pos.x += i * freqBandDistance - 64 * freqBandDistance * 0.5f;
+            instance.transform.position = pos;
+
+            freqBandInstances2[i] = instance;
         }
     }
 
     float lin2dB(float linear)
     {
-        return Mathf.Clamp(Mathf.Log10(linear) * 20.0f, -80.0f, 0.0f);
+        return Mathf.Clamp(Mathf.Log10(linear) * 10.0f, -80.0f, 0.0f);
+    }
+
+    float normalize(float db)
+    {
+        return db / -80.0f;
     }
 
     private void Update()
@@ -62,15 +87,27 @@ public class AudioVisualizer : MonoBehaviour
         {
             GameObject instance = sampleInstances[i];
             Vector3 scale = instance.transform.localScale;
-            scale.y = lin2dB(audioData.samples[i]) * maxHeight;
+            scale.y = lin2dB(audioData.samplesLeft[i]) * maxHeightFreq;
             instance.transform.localScale = scale;
         }
 
-        for (int i = 0; i < audioData.freqBandCount; i++)
+        for (int i = 0; i < freqBandInstances.Length; i++)
         {
             GameObject instance = freqBandInstances[i];
             Vector3 scale = instance.transform.localScale;
-            scale.y = audioData.freqBands[i] * maxHeight;
+            scale.y = audioData.freqBand8[i] * maxHeightBand;
+            instance.transform.localScale = scale;
+
+            Vector3 pos = instance.transform.localPosition;
+            pos.y = scale.y * 0.5f;
+            instance.transform.localPosition = pos;
+        }
+
+        for (int i = 0; i < freqBandInstances2.Length; i++)
+        {
+            GameObject instance = freqBandInstances2[i];
+            Vector3 scale = instance.transform.localScale;
+            scale.y = audioData.freqBand64[i] * maxHeightBand;
             instance.transform.localScale = scale;
 
             Vector3 pos = instance.transform.localPosition;

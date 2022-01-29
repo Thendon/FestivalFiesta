@@ -15,4 +15,10 @@ public class SetGenreMaterial : MonoBehaviour
         foreach (var renderer in renderers)
             renderer.material = material;
     }
+
+    public void SetMaterials(Material[] materials)
+    {
+        foreach (var renderer in renderers)
+            renderer.material = materials[Random.Range(0, materials.Length)];
+    }
 }

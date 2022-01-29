@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6969740081271563244}
   - component: {fileID: 5142419064923002662}
   - component: {fileID: 5718311164604618078}
+  - component: {fileID: 9158004988936261676}
   m_Layer: 0
   m_Name: Zelt_1
   m_TagString: Untagged
@@ -98,3 +99,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderers:
   - {fileID: 5142419064923002662}
+--- !u!65 &9158004988936261676
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6655606206180177651}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7623055, y: 0.6822824, z: 0.78454787}
+  m_Center: {x: 0, y: 0.3411412, z: 0}

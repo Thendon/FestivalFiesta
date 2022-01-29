@@ -5,13 +5,24 @@ using UnityEngine;
 class BeatSystem : MonoBehaviour
 {
     public static event Action beatTickEvent;
+    public static event Action<float> beatMarkerTapEvent;
+    public static event Action<float,float> beatMarkerHoldEvent;
 
     class TimelineInfo
     {
         public int currentMusicBar = 0;
         public FMOD.StringWrapper lastMarker = new FMOD.StringWrapper();
         public float lastTick = 0;
-        public bool beatUpdate = false;
+        public bool beatTickUpdate = false;
+        
+        public float beatMarkerTime;
+        public bool beatMarkerUpdate;
+        public FMOD.StringWrapper lastBeatMarker = new FMOD.StringWrapper();
+
+        public float beatMarkerHoldTime;
+        public float beatMarkerHoldDuration;
+        public bool beatMarkerHoldUpdate;
+        public FMOD.StringWrapper lastBeatHoldMarker = new FMOD.StringWrapper();
     }
 
     TimelineInfo timelineInfo;
@@ -22,7 +33,29 @@ class BeatSystem : MonoBehaviour
     FMOD.Studio.EVENT_CALLBACK beatCallback;
     FMOD.Studio.EventInstance musicInstance;
 
-    private bool beatUpdate = false;
+    /// <summary> Time of the last beat tick </summary>
+    public float TimeSinceLastBeat
+    {
+        get { return Time.time - TimeOfLastBeat; }
+        private set { TimeOfLastBeat = value; }
+    }
+    public float TimeOfLastBeat;
+    
+    /// <summary> Time until the next beat will tick </summary>
+    public float TimeTillNextBeat
+    {
+        get { return (TimeOfLastBeat + 0.5f) - Time.time; }
+    }
+
+    /// <summary> Damage multiplier in Range [0,1] </summary>
+    public float GetBeatTickDamageMultiplier
+    {
+        get
+        {
+            float minDist = Mathf.Min(TimeSinceLastBeat / 2f, TimeTillNextBeat / 2f);
+            return Mathf.Clamp01(1f - minDist);
+        }
+    }
 
 #if UNITY_EDITOR
     void Reset()
@@ -69,13 +102,12 @@ class BeatSystem : MonoBehaviour
 
     void OnGUI()
     {
-        GUILayout.Box(String.Format("Current Bar = {0}, LastTick = {2} Last Marker = {1}", timelineInfo.currentMusicBar, (string)timelineInfo.lastMarker , timelineInfo.lastTick));
+        GUILayout.Box(String.Format("Current Bar = {0}, LastBeat = {2}, NextBeat = {3}, Last Marker = {1}", timelineInfo.currentMusicBar, (string)timelineInfo.lastMarker , timelineInfo.lastTick, TimeTillNextBeat));
     }
 
     [AOT.MonoPInvokeCallback(typeof(FMOD.Studio.EVENT_CALLBACK))]
     static FMOD.RESULT BeatEventCallback(FMOD.Studio.EVENT_CALLBACK_TYPE type, IntPtr instancePtr, IntPtr parameterPtr)
     {
-        Debug.Log("Callback");
         FMOD.Studio.EventInstance instance = new FMOD.Studio.EventInstance(instancePtr);
 
         // Retrieve the user data
@@ -98,13 +130,14 @@ class BeatSystem : MonoBehaviour
                         var parameter = (FMOD.Studio.TIMELINE_BEAT_PROPERTIES)Marshal.PtrToStructure(parameterPtr, typeof(FMOD.Studio.TIMELINE_BEAT_PROPERTIES));
                         timelineInfo.currentMusicBar = parameter.bar;
                         timelineInfo.lastTick = Time.time;
-                        timelineInfo.beatUpdate = true;
+                        timelineInfo.beatTickUpdate = true;
                     }
                     break;
                 case FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER:
                     {
                         var parameter = (FMOD.Studio.TIMELINE_MARKER_PROPERTIES)Marshal.PtrToStructure(parameterPtr, typeof(FMOD.Studio.TIMELINE_MARKER_PROPERTIES));
                         timelineInfo.lastMarker = parameter.name;
+                        timelineInfo.beatMarkerUpdate = true;
                     }
                     break;
                 case FMOD.Studio.EVENT_CALLBACK_TYPE.NESTED_TIMELINE_BEAT:
@@ -122,10 +155,20 @@ class BeatSystem : MonoBehaviour
 
     void Update()
     {
-        if (timelineInfo.beatUpdate)
+        if (timelineInfo.beatTickUpdate)
         {
+            TimeOfLastBeat = timelineInfo.lastTick;
             beatTickEvent?.Invoke();
-            timelineInfo.beatUpdate = false;
+            timelineInfo.beatTickUpdate = false;
+        }
+        if (timelineInfo.beatMarkerUpdate)
+        {
+            beatMarkerTapEvent?.Invoke(1f);
+            timelineInfo.beatMarkerUpdate = false;
+        }
+        if (timelineInfo.beatMarkerHoldUpdate)
+        {
+
         }
     }
 }

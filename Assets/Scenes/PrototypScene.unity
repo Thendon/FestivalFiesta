@@ -15224,8 +15224,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5457117d0f456641bd5c2382ae863e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  innerRange: 5
-  outerRange: 10
+  gegnerGenre: 4
+  genreMaterialPalettes:
+  - {fileID: 11400000, guid: 58a1b6056eaf916478ee8a26b6fd9676, type: 2}
+  - {fileID: 11400000, guid: 6029c9165488b8e4caa4fe683ec2f561, type: 2}
+  - {fileID: 11400000, guid: 662f97ce57735194fb843c022138cb5e, type: 2}
+  - {fileID: 11400000, guid: b993c109bd5a2c5429300edde63d024b, type: 2}
+  - {fileID: 11400000, guid: cc5c3b7ed5f56ec43946934686d96ff9, type: 2}
+  - {fileID: 11400000, guid: d4c0d08deb22a1e458cee4dffb99b4d2, type: 2}
+  - {fileID: 11400000, guid: a1cd7acac60b4f347a9d182214713d45, type: 2}
+  - {fileID: 11400000, guid: 38c8198119b036248994e39b4fb43318, type: 2}
+  innerRange: 10
+  outerRange: 30
   spawnables:
   - {fileID: 3215249816784173308, guid: 2db41082cf964eb42825579538b1fc65, type: 3}
   - {fileID: 6656518206725428941, guid: f7979a6c574faac488ae93e866f75721, type: 3}
@@ -15239,8 +15249,12 @@ MonoBehaviour:
   - {fileID: 4393911617152312513, guid: e5baedd71dd41544dbda7b7523d6bba6, type: 3}
   - {fileID: 3091913876080988768, guid: ce4e33657382966498304c398ba65d1a, type: 3}
   - {fileID: 272846900967050065, guid: f93e00c4cede90c4b89092bc8873a0a5, type: 3}
+  - {fileID: 6655606206180177651, guid: 3eb91a055abdb9845b173bfce204bdfc, type: 3}
+  - {fileID: 8169443989963229235, guid: a7c0c5e3a1a0dac4e9e783d50251a89e, type: 3}
+  - {fileID: 8244804559348860646, guid: 75a152c953121da4b9d8bce80536d80f, type: 3}
+  - {fileID: 6012714101577438745, guid: 6deb8f8a1d7824e4b9958827c2822886, type: 3}
   player: {fileID: 167558014}
-  spawnLimit: 5
+  spawnLimit: 100
 --- !u!4 &1410382049
 Transform:
   m_ObjectHideFlags: 0
@@ -24299,7 +24313,7 @@ PrefabInstance:
     - target: {fileID: 488914726825723058, guid: 422b75ecc43a554499db6ec9ee23f81c,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 488914726825723059, guid: 422b75ecc43a554499db6ec9ee23f81c,
         type: 3}

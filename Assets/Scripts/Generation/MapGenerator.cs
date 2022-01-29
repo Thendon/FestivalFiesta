@@ -5,6 +5,10 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     // Hier noch so ne komische Enum(?) Dings liste mit den verschiedenen musikstilen, die gespawnt werden?!
+    public Genre gegnerGenre = Genre.Schlager;
+    public GenreMaterialPalette[] genreMaterialPalettes;
+    public Dictionary<Genre, GenreMaterialPalette> genreMaterials;
+
 
     public int innerRange;
     public int outerRange;
@@ -16,13 +20,19 @@ public class MapGenerator : MonoBehaviour
     private List<GameObject> spawned;
     private List<GameObject> spawnedInRange;
 
+    private void Awake()
+    {
+        genreMaterials = new Dictionary<Genre, GenreMaterialPalette>();
+        foreach (var matPalette in genreMaterialPalettes)
+            genreMaterials.Add(matPalette.genre, matPalette);
+    }
+
     void Start()
     {
         spawned = new List<GameObject>();
         spawnedInRange = new List<GameObject>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (spawned.Count!=0)
@@ -59,6 +69,17 @@ public class MapGenerator : MonoBehaviour
         spawnable.transform.localRotation = Quaternion.Euler(spawnRot);
 
         spawned.Add(spawnable);
+
+        // random material pro gegnergenre
+        var setGenreMat = spawnable.GetComponent<SetGenreMaterial>();
+        if (setGenreMat != null)
+        {
+            Material mat = genreMaterials[gegnerGenre].GetRandomMaterial();
+            if (mat != null) setGenreMat.SetMaterial(mat);
+            else Debug.LogWarning("[MapGen] No Material for Genre");
+        }
+        
+        
     }
 
 }

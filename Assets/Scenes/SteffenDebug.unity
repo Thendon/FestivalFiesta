@@ -668,6 +668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invisibleSize: 100
+  delayInSeconds: 0.1
   goodRegion: {fileID: 37111447}
   mediumRegion: {fileID: 1835784338}
   badRegion: {fileID: 1520699205}

@@ -15,6 +15,8 @@ public class BeatMiniGame : MonoBehaviour
     }
 
     public float invisibleSize;
+    // Raw delay to sync FMOD and Unity as we seem to have sync issues
+    public float delayInSeconds;
 
     public RectTransform goodRegion;
     public RectTransform mediumRegion;
@@ -39,6 +41,8 @@ public class BeatMiniGame : MonoBehaviour
 
     private float speedPerSecond;
 
+    private float delayOffset;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +51,8 @@ public class BeatMiniGame : MonoBehaviour
 
         float distanceToTravel = Mathf.Abs(rectTransform.rect.width / 2 + invisibleSize);
         speedPerSecond = distanceToTravel * (1.0f / timeOffset);
+
+        delayOffset = speedPerSecond * delayInSeconds;
     }
 
     void OnNewMarkerCallback(BeatType beatType, MarkerType markerType, float callbackTime)
@@ -65,7 +71,7 @@ public class BeatMiniGame : MonoBehaviour
                         markerTransform.anchorMin = new Vector2(1, 0.5f);
                         markerTransform.anchorMax = new Vector2(1, 0.5f);
                         float positionOffset = speedPerSecond * (Time.realtimeSinceStartup - callbackTime);
-                        markerTransform.anchoredPosition = new Vector2(invisibleSize - positionOffset, 0);
+                        markerTransform.anchoredPosition = new Vector2(invisibleSize - positionOffset - delayOffset, 0);
                         newTapMarker.name = "Marker_" + markerIndex++;
 
                         activeMarkers.Enqueue(markerTransform);
@@ -79,7 +85,7 @@ public class BeatMiniGame : MonoBehaviour
                         markerTransform.anchorMin = new Vector2(1, 0.5f);
                         markerTransform.anchorMax = new Vector2(1, 0.5f);
                         float positionOffset = speedPerSecond * (Time.realtimeSinceStartup - callbackTime);
-                        markerTransform.anchoredPosition = new Vector2(invisibleSize - positionOffset, 0);
+                        markerTransform.anchoredPosition = new Vector2(invisibleSize - positionOffset - delayOffset, 0);
                         markerTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0.0f);
                         newTapMarker.name = "Marker_" + markerIndex++;
 

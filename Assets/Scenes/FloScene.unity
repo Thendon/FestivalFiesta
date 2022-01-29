@@ -325,7 +325,8 @@ MonoBehaviour:
     type: 3}
   freqBandPrefab: {fileID: 5773522862402299376, guid: f50b0eb0d28592c468d25418d23073fe,
     type: 3}
-  maxHeight: 1
+  maxHeightFreq: 10
+  maxHeightBand: 10
   sampleDistance: 100
   freqBandDistance: 5
 --- !u!4 &1060504628
@@ -354,6 +355,7 @@ GameObject:
   - component: {fileID: 1400159246}
   - component: {fileID: 1400159247}
   - component: {fileID: 1400159248}
+  - component: {fileID: 1400159249}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -396,6 +398,8 @@ MonoBehaviour:
       Data4: 1448215187
     Path: event:/Music/Fight
   progress: 0
+  volume: 0.52
+  volumePath: Music Volume
   playerGenre: 0
   enemyGenre: 6
 --- !u!114 &1400159248
@@ -411,7 +415,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sampleCountPower: 9
-  freqBandCount: 8
-  samples: []
-  freqBands: []
+  audioProfile: 0
+  channel: 0
+  samplesLeft: []
+  samplesRight: []
+  freqBand8: []
+  freqBand64: []
   sampleCount: 0
+--- !u!114 &1400159249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400159245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e282262a229d3284a9d9f70789899fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

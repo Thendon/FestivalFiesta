@@ -148,7 +148,7 @@ class BeatSystem : MonoBehaviour
         if (timelineInfo.beatUpdate)
         {
             TimeOfLastBeat = timelineInfo.lastTick;
-            beatTickEvent.Invoke();
+            beatTickEvent?.Invoke();
             timelineInfo.beatUpdate = false;
         }
     }

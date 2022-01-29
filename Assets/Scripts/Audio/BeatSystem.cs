@@ -22,8 +22,6 @@ class BeatSystem : MonoBehaviour
     FMOD.Studio.EVENT_CALLBACK beatCallback;
     FMOD.Studio.EventInstance musicInstance;
 
-    private bool beatUpdate = false;
-
     /// <summary> Time of the last beat tick </summary>
     public float TimeSinceLastBeat
     {

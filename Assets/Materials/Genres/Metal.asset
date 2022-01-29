@@ -13,4 +13,10 @@ MonoBehaviour:
   m_Name: Metal
   m_EditorClassIdentifier: 
   genre: 0
-  weightedMaterials: []
+  weightedMaterials:
+  - material: {fileID: 2100000, guid: a9a76741d6774854294c1115eeb526fc, type: 2}
+    weighting: 29
+  - material: {fileID: 2100000, guid: 1d155e2ae81a46b45be498bd20dd67e3, type: 2}
+    weighting: 57
+  - material: {fileID: 2100000, guid: 9e10baf1b40a71e47aa0127318e6e987, type: 2}
+    weighting: 8

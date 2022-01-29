@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
     {
         wantedDirection.x = Input.GetAxis("Horizontal");
         wantedDirection.z = Input.GetAxis("Vertical");
-        Debug.Log(wantedDirection);
+        //Debug.Log(wantedDirection);
         if(wantedDirection.sqrMagnitude > 0)
         {
             wantedDirection.Normalize();

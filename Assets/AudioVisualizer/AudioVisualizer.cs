@@ -28,17 +28,33 @@ public class AudioVisualizer : MonoBehaviour
     [SerializeField]
     GameObject freq64Container = null;
 
+    Material sampleMaterial = null;
+    Color sampleColor = Color.white;
     GameObject[] sampleInstances = null;
-    GameObject[] freqBandInstances = null;
-    GameObject[] freqBandInstances2 = null;
+    Material[] freq8BandMaterials = null;
+    Color[] freq8BandColors = null;
+    GameObject[] freq8BandInstances = null;
+    Material[] freq64BandMaterials = null;
+    Color[] freq64BandColors = null;
+    GameObject[] freq64BandInstances2 = null;
 
     private void Start()
     {
         float circleFactor = (1.0f / audioData.sampleCount) * Mathf.PI * 2.0f;
         sampleInstances = new GameObject[audioData.sampleCount];
+
         for (int i = 0; i < audioData.sampleCount; i++)
         {
             GameObject instance = Instantiate(samplePrefab, sampleContainer.transform);
+
+            MeshRenderer meshRenderer = instance.GetComponent<MeshRenderer>();
+            if (i == 0)
+            {
+                sampleMaterial = Instantiate(meshRenderer.material);
+                sampleColor = sampleMaterial.GetColor("_EmissionColor");
+            }
+            meshRenderer.material = sampleMaterial;
+
             instance.name = "sample_" + i;
             float pos = i * circleFactor;
 
@@ -49,21 +65,32 @@ public class AudioVisualizer : MonoBehaviour
             sampleInstances[i] = instance;
         }
 
-        freqBandInstances = new GameObject[8];
+        freq8BandInstances = new GameObject[8];
+        freq8BandMaterials = new Material[8];
+        freq8BandColors = new Color[8];
         for (int i = 0; i < 8; i++)
         {
             GameObject instance = Instantiate(freqBandPrefab, freq8Container.transform);
             instance.name = "freqBand8_" + i;
 
+            Vector3 scale = instance.transform.localScale;
+            scale.y = 200.0f; //audioData.freqBand8Buffer[i] * maxHeightBand;
+            instance.transform.localScale = scale;
             Vector3 pos = new Vector3();
             pos.x += i * freqBandDistance - 8 * freqBandDistance * 0.5f;
+            pos.y = scale.y * 0.5f;
             instance.transform.localPosition = pos;
-            instance.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[i]);
 
-            freqBandInstances[i] = instance;
+            freq8BandMaterials[i] = instance.GetComponent<MeshRenderer>().material;
+            freq8BandMaterials[i].SetColor("_EmissionColor", colors[i]);
+            freq8BandColors[i] = colors[i];
+
+            freq8BandInstances[i] = instance;
         }
 
-        freqBandInstances2 = new GameObject[64];
+        freq64BandInstances2 = new GameObject[64];
+        freq64BandMaterials = new Material[64];
+        freq64BandColors = new Color[64];
         for (int i = 0; i < 64; i++)
         {
             GameObject instance = Instantiate(freqBandPrefab, freq64Container.transform);
@@ -72,8 +99,10 @@ public class AudioVisualizer : MonoBehaviour
             Vector3 pos = freq64Container.transform.position;
             pos.x += i * freqBandDistance - 64 * freqBandDistance * 0.5f;
             instance.transform.position = pos;
+            freq64BandMaterials[i] = instance.GetComponent<MeshRenderer>().material;
+            freq64BandColors[i] = freq64BandMaterials[i].GetColor("_EmissionColor");
 
-            freqBandInstances2[i] = instance;
+            freq64BandInstances2[i] = instance;
         }
     }
 
@@ -90,30 +119,29 @@ public class AudioVisualizer : MonoBehaviour
             Vector3 scale = instance.transform.localScale;
             scale.y = 80.0f + lin2dB(audioData.samplesLeft[i]) * maxHeightFreq;
             instance.transform.localScale = scale;
+
+            sampleMaterial.SetColor("_EmissionColor", sampleColor * audioData.amplitudeBuffer);
         }
 
-        for (int i = 0; i < freqBandInstances.Length; i++)
+        for (int i = 0; i < freq8BandInstances.Length; i++)
         {
-            GameObject instance = freqBandInstances[i];
+            GameObject instance = freq8BandInstances[i];
+
+            freq8BandMaterials[i].SetColor("_EmissionColor", freq8BandColors[i] * (audioData.audioBand8Buffer[i] * 0.8f + 0.2f) );
+        }
+
+        for (int i = 0; i < freq64BandInstances2.Length; i++)
+        {
+            GameObject instance = freq64BandInstances2[i];
             Vector3 scale = instance.transform.localScale;
-            scale.y = audioData.freqBand8[i] * maxHeightBand;
+            scale.y = audioData.freqBand64Buffer[i] * maxHeightBand;
             instance.transform.localScale = scale;
 
             Vector3 pos = instance.transform.localPosition;
             pos.y = scale.y * 0.5f;
             instance.transform.localPosition = pos;
-        }
 
-        for (int i = 0; i < freqBandInstances2.Length; i++)
-        {
-            GameObject instance = freqBandInstances2[i];
-            Vector3 scale = instance.transform.localScale;
-            scale.y = audioData.freqBand64[i] * maxHeightBand;
-            instance.transform.localScale = scale;
-
-            Vector3 pos = instance.transform.localPosition;
-            pos.y = scale.y * 0.5f;
-            instance.transform.localPosition = pos;
+            freq64BandMaterials[i].SetColor("_EmissionColor", freq64BandColors[i] * audioData.audioBand64Buffer[i]);
         }
     }
 }

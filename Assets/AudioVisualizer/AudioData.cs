@@ -66,17 +66,21 @@ public class AudioData : MonoBehaviour
     public float amplitudeBuffer { get; private set; } = 0.0f;
     float amplitudeHighest = 0.0f;
 
-    float[] freqBand8Buffer;
+    [HideInInspector]
+    public float[] freqBand8Buffer;
     float[] freqBand8Decrease;
     float[] freqBand8Highest;
     float[] audioBand8;
-    float[] audioBand8Buffer;
+    [HideInInspector]
+    public float[] audioBand8Buffer;
 
-    float[] freqBand64Buffer;
+    [HideInInspector]
+    public float[] freqBand64Buffer;
     float[] freqBand64Decrease;
     float[] freqBand64Highest;
     float[] audioBand64;
-    float[] audioBand64Buffer;
+    [HideInInspector]
+    public float[] audioBand64Buffer;
     FMOD.DSP fft;
 
     private void Awake()
@@ -175,7 +179,7 @@ public class AudioData : MonoBehaviour
         for (int i = 0; i < 8; i++)
         {
             currentAmplitude += audio[i];
-            currentAmplitudeBuffer = audioBuffer[i];
+            currentAmplitudeBuffer += audioBuffer[i];
         }
         if (currentAmplitude > amplitudeHighest)
             amplitudeHighest = currentAmplitude;

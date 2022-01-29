@@ -41,7 +41,7 @@ class BeatSystem : MonoBehaviour
     {
         get
         {
-            float minDist = Mathf.Min(TimeSinceLastBeat, TimeTillNextBeat);
+            float minDist = Mathf.Min(TimeSinceLastBeat / 2f, TimeTillNextBeat / 2f);
             return Mathf.Clamp01(1f - minDist);
         }
     }

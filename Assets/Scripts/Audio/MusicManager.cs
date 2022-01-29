@@ -5,6 +5,9 @@ public class MusicManager : MonoBehaviour
     public FMOD.Studio.EventInstance musicInstance;
     public FMODUnity.EventReference fmodEvent;
 
+    public FMOD.Studio.EventInstance outroMusicInstance;
+    public FMODUnity.EventReference fmodEventOutro;
+
     [Range(0f, 1f)]
     public float progress = 0f;
 

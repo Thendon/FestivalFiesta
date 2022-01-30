@@ -78,6 +78,12 @@ public class BeatSystem : MonoBehaviour
     }
 #endif
 
+    private void Awake()
+    {
+        beatTickEvent = null;
+        markerEvent = null;
+    }
+
     void Start() => Init();
 
     public void Init()

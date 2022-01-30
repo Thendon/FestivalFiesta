@@ -20,3 +20,5 @@ MonoBehaviour:
     weighting: 57
   - material: {fileID: 2100000, guid: 9e10baf1b40a71e47aa0127318e6e987, type: 2}
     weighting: 8
+  color: {r: 10.680627, g: 2.6701567, b: 2.9806287, a: 1}
+  particleTex: {fileID: 2800000, guid: 16e842a146700f842b4e2b7254696b95, type: 3}

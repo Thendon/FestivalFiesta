@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   genre: 1
   weightedMaterials: []
+  color: {r: 0.9925464, g: 0.95722574, b: 10.680627, a: 1}
+  particleTex: {fileID: 2800000, guid: 62f4bb8a04b47464baa93c38bda3caa0, type: 3}

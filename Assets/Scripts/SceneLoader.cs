@@ -10,8 +10,28 @@ public class SceneLoader : MonoBehaviour
     string menuScene;
     [SerializeField]
     string[] gameScenePool;
+    [SerializeField]
+    GenreMaterialPalette[] genrePalettes = new GenreMaterialPalette[0];
+
+    public Dictionary<Genre, GenreMaterialPalette> genrePalette = new Dictionary<Genre, GenreMaterialPalette>();
 
     Queue<Genre> gameSceneLoop = new Queue<Genre>();
+
+    public GenreMaterialPalette playerPalette { 
+        get { 
+            genrePalette.TryGetValue(selectedGenre, out GenreMaterialPalette palette);
+            return palette; 
+        } 
+    }
+    
+    public GenreMaterialPalette enemyPalette
+    {
+        get
+        {
+            genrePalette.TryGetValue(enemyGenre, out GenreMaterialPalette palette);
+            return palette;
+        }
+    }
 
     public Genre selectedGenre { get; private set; } = Genre.Metal;
     public Genre enemyGenre { get; private set; } = Genre.Schlager;
@@ -33,6 +53,11 @@ public class SceneLoader : MonoBehaviour
         currentScene = SceneManager.GetActiveScene();
         SceneManager.sceneLoaded += OnSceneLoaded;
         DontDestroyOnLoad(this);
+
+        foreach (var palette in genrePalettes)
+        {
+            genrePalette.Add(palette.genre, palette);
+        }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)

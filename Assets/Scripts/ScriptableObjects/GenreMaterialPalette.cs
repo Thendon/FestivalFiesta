@@ -16,7 +16,8 @@ public class GenreMaterialPalette : ScriptableObject
 {
     public Genre genre;
     public WeightedMaterial[] weightedMaterials;
-
+    [SerializeField, ColorUsage(true, true)]
+    public Color color;
 
     public Material GetRandomMaterial()
     {

@@ -61,9 +61,13 @@ public class PlayerController : MonoBehaviour
 
     private HitRanking lastHitRanking = HitRanking.Good;
 
+    private LevelState levelState;
+
     public void ReceiveDamage(uint value)
     {
-        if(currentPlayerLife <= value)
+        
+
+        if (currentPlayerLife <= value)
         {
             Debug.Log("Game over");
         }
@@ -72,6 +76,8 @@ public class PlayerController : MonoBehaviour
             currentPlayerLife -= value;
             // TODO(Steffen): Trigger UI update
         }
+
+        levelState.PlayerGotDamage();
     }
 
     void Start()
@@ -90,6 +96,7 @@ public class PlayerController : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
 
 
+        levelState = FindObjectOfType<LevelState>();
         FindObjectOfType<BeatMiniGame>().onHitMarker += OnBeatGameHit;
     }
 

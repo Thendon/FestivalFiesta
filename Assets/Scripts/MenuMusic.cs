@@ -22,6 +22,11 @@ public class MenuMusic : MonoBehaviour
     {
         manager = GetComponent<MusicManager>();
         audioData = GetComponent<AudioData>();
+
+        manager.playerGenre = RandomGenre();
+        manager.enemyGenre = RandomGenre();
+        while (manager.playerGenre == manager.enemyGenre)
+            manager.enemyGenre = RandomGenre();
     }
 
     Genre RandomGenre()
@@ -34,12 +39,7 @@ public class MenuMusic : MonoBehaviour
         value = Mathf.Cos(Time.time * speed);
         manager.progress = value * 0.5f + 0.5f;
 
-        manager.playerGenre = RandomGenre();
-        manager.enemyGenre = RandomGenre();
-        while (manager.playerGenre == manager.enemyGenre)
-            manager.enemyGenre = RandomGenre();
-
-        progressBall.transform.localScale = Vector3.one * audioData.amplitudeBuffer * maxBallSize + Vector3.one * 0.0001f;
+        progressBall.transform.localScale = Vector3.one * Mathf.Max(audioData.amplitudeBuffer, 0.0001f) * maxBallSize;
         Vector3 pos = progressBall.transform.localPosition;
         pos.x = value * maxBallDistance;
         progressBall.transform.localPosition = pos;

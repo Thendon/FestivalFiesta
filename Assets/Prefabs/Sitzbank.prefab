@@ -494,6 +494,7 @@ GameObject:
   - component: {fileID: 4011344971252914646}
   - component: {fileID: 1660365894969741879}
   - component: {fileID: 7519444313150935287}
+  - component: {fileID: 8696514635032137756}
   m_Layer: 0
   m_Name: Sitzbank
   m_TagString: Untagged
@@ -567,3 +568,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8696514635032137756
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7348815574101978852}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5495902117074765545, guid: a4cabc88f0d00f04a843ec5c63491232, type: 3}

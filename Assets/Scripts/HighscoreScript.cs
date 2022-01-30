@@ -32,7 +32,6 @@ public class HighscoreScript : MonoBehaviour
     {
         if (levelState != null)
         {
-            Debug.Log(levelState.KilledEnemies);
             text.text = highscore.ToString();
             try
             {

@@ -25,6 +25,7 @@ public class AudioBeam : MonoBehaviour
     {
         lineRenderer.material.SetColor("_EmissionColor", sceneLoader.playerPalette.color);
         endEffect.SetTexture("HitTexture", sceneLoader.playerPalette.particleTex);
+        endEffect.SetVector4("Color", sceneLoader.playerPalette.color);
     }
 
     private void UpdateEffectPositions()

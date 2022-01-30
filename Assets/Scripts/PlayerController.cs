@@ -228,8 +228,11 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetButtonUp("Fire1") && currentFireType == FireType.Beam)
         {
-            Destroy(beamGameObject.gameObject);
-            beamGameObject = null;
+            if (beamGameObject != null)
+            {
+                Destroy(beamGameObject.gameObject);
+                beamGameObject = null;
+            }
         }
 
 

@@ -28,11 +28,6 @@ public class MusicManager : MonoBehaviour
         beatSystem = GetComponent<BeatSystem>();
     }
 
-    void Start()
-    {
-        StartMusic();
-    }
-
     public void StartMusic()
     {
         if (!musicInstance.isValid())

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7817032425122268818}
   - component: {fileID: 7817032425122268819}
   - component: {fileID: 7817032425122268812}
+  - component: {fileID: 572168726360009434}
+  - component: {fileID: 9038537701739763400}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -77,3 +79,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeOfLastBeat: 0
+--- !u!114 &572168726360009434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7817032425122268817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eba7e3024525ac4c95e2719a42e5301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9038537701739763400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7817032425122268817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbd4e82ed41a6cd4a8bd4b09bc6c2e1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicManager: {fileID: 7817032425122268819}
+  sampleCountPower: 9
+  audioProfile: 0
+  channel: 0
+  bandDecrease1: 0.005
+  bandDecrease2: 1.2
+  samplesLeft: []
+  samplesRight: []
+  freqBand8: []
+  freqBand64: []
+  sampleCount: 0
+  freqBand8Buffer: []
+  audioBand8Buffer: []
+  freqBand64Buffer: []
+  audioBand64Buffer: []

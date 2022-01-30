@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -62,6 +63,8 @@ public class PlayerController : MonoBehaviour
     private HitRanking lastHitRanking = HitRanking.Good;
 
     private LevelState levelState;
+
+    public Action onGoodHit;
 
     public void ReceiveDamage(uint value)
     {
@@ -207,6 +210,11 @@ public class PlayerController : MonoBehaviour
                     Debug.Assert(false, "Need behaviour for unknown firetype: " + currentFireType);
                     break;
             }
+
+            if (lastHitRanking == HitRanking.Good)
+            {
+                onGoodHit?.Invoke();
+            }
             
         }
         else if (Input.GetButtonUp("Fire1") && currentFireType == FireType.Beam)
@@ -242,7 +250,7 @@ public class PlayerController : MonoBehaviour
     
     public void OnBeatGameHit(HitRanking ranking)
     {
-
+        lastHitRanking = ranking;
     }
 
 }

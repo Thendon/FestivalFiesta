@@ -65,7 +65,7 @@ public class HighscoreScript : MonoBehaviour
         text.color = Color.red;
         yield return new WaitForSeconds(5);
         yield return new WaitForSeconds(5);
-
+        text.color = Color.white;
         sceneLoader.LoadNextLevel();
     }
 

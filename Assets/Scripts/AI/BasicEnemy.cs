@@ -54,7 +54,7 @@ public class BasicEnemy : MonoBehaviour
 
     void Update()
     {
-        if (Vector3.Magnitude(player.transform.position - transform.position) > 10) 
+        if (Vector3.Magnitude(player.transform.position - transform.position) > 17) 
                 return;
 
         if (!animator.GetBool("InAttackRange"))

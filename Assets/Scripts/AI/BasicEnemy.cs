@@ -27,6 +27,7 @@ public class BasicEnemy : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        player = FindObjectOfType<PlayerController>();
     }
 
     // Called by the animation event

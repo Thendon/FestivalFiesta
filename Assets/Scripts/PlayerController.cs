@@ -105,10 +105,15 @@ public class PlayerController : MonoBehaviour
         BeatMiniGame miniGame = FindObjectOfType<BeatMiniGame>();
         miniGame.onHitMarker += OnBeatGameHit;
         miniGame.onEndMarker += OnEndMarker;
+
+        StartCoroutine(CheckUpSideDown());
     }
 
     void Update()
     {
+
+
+
         wantedDirection.x = Input.GetAxis("Horizontal");
         wantedDirection.z = Input.GetAxis("Vertical");
         if(wantedDirection.sqrMagnitude > 0)
@@ -299,4 +304,18 @@ public class PlayerController : MonoBehaviour
             beamGameObject = null;
         }
     }
+
+    public IEnumerator CheckUpSideDown()
+    {
+        while (true)
+        {
+            if (!Physics.Raycast(transform.position, -transform.up, out _, 2f))
+            {
+                this.rigidBody.MoveRotation(Quaternion.identity);
+            }
+            yield return new WaitForSeconds(3f);
+        }
+
+    }
+
 }

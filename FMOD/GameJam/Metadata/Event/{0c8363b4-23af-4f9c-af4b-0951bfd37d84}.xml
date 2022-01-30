@@ -149,6 +149,9 @@ Recordings by David Nichols of Track Time Audio. Engine is a 1985 Mercedes-Benz 
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{8a846517-7e63-401c-b7d0-436564e94192}">
+		<property name="volume">
+			<value>-8.5</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{0575ff31-40ca-44be-b0e4-998e40245e8a}</destination>
 		</relationship>

@@ -220,7 +220,7 @@ public class PlayerController : MonoBehaviour
                     break;
             }
 
-            if (lastHitRanking == HitRanking.Good)
+            if (lastHitRanking == HitRanking.Good || lastHitRanking == HitRanking.Medium)
             {
                 onGoodHit?.Invoke();
             }

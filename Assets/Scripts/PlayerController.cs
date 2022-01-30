@@ -81,6 +81,7 @@ public class PlayerController : MonoBehaviour
         }
 
         levelState.PlayerGotDamage();
+        Debug.Log("Got Damage nice!");
     }
 
     void Start()

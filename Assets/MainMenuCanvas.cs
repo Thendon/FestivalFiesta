@@ -8,7 +8,7 @@ public class MainMenuCanvas : MonoBehaviour
 
     public void Awake()
     {
-        if (instance == null)
+        if (instance != null)
         {
             Destroy(gameObject);
             return;

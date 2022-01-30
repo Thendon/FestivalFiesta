@@ -17,7 +17,7 @@ public class HighscoreScript : MonoBehaviour
     public bool menu = false;
     public void Awake()
     {
-        if (instance == null)
+        if (instance != null)
         {
             Destroy(gameObject);
             return;

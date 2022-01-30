@@ -434,6 +434,7 @@ MonoBehaviour:
   MasterBanks:
   - Master
   Banks:
+  - Attack
   - Dialogue_CN
   - Dialogue_EN
   - Dialogue_JP

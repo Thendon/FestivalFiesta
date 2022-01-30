@@ -9,6 +9,8 @@ public class LevelState : MonoBehaviour
     private float musicManagerProgress;
     public float progressRampUpSpeed = 1f;
 
+    public bool win = false;
+
     public int KilledEnemies 
     {
         get { return _killedEnemies; }
@@ -28,6 +30,11 @@ public class LevelState : MonoBehaviour
         float i = Mathf.Clamp01(progressRampUpSpeed * Time.deltaTime);
         musicManagerProgress = Mathf.Lerp(musicManagerProgress, Progress, i);
         musicManager.progress = musicManagerProgress;
+
+        if (_killedEnemies >= 40)
+        {
+            win = true;
+        }
     }
 
     public void EnemieDied()

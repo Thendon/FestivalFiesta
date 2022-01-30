@@ -1941,6 +1941,7 @@
 		</property>
 		<relationship name="sounds">
 			<destination>{5bb8f653-f0bc-4eb0-b0e6-6ecf2654e1c8}</destination>
+			<destination>{80bbb637-c7dc-4bd4-ac26-075acd3fc0aa}</destination>
 			<destination>{ee0e5cbd-ca64-4673-905e-a4a9b08c7acc}</destination>
 		</relationship>
 	</object>
@@ -3517,6 +3518,11 @@
 		</relationship>
 	</object>
 	<object class="EventSound" id="{5bb8f653-f0bc-4eb0-b0e6-6ecf2654e1c8}">
+		<relationship name="event">
+			<destination>{dbb40e23-fcbc-4b37-a55b-ab9eb85c156b}</destination>
+		</relationship>
+	</object>
+	<object class="EventSound" id="{80bbb637-c7dc-4bd4-ac26-075acd3fc0aa}">
 		<relationship name="event">
 			<destination>{dbb40e23-fcbc-4b37-a55b-ab9eb85c156b}</destination>
 		</relationship>

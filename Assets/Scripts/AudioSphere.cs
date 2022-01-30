@@ -36,7 +36,7 @@ public class AudioSphere : MonoBehaviour
         audioData = FindObjectOfType<AudioData>();
         sphereDefaultScale = sphere.transform.localScale.x;
         SceneLoader sceneLoader = FindObjectOfType<SceneLoader>();
-        //sphereMat = sphere.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", sceneLoader.selectedGenre);
+        sphere.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", sceneLoader.playerPalette.color);
 
         freq8BandInstances = new GameObject[8];
         freq8BandMaterials = new Material[8];

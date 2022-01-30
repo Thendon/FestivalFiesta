@@ -91,7 +91,6 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        //onLevelSuccess?.Invoke();
         enemyGenre = gameSceneLoop.Dequeue();
         LoadScene(enemyGenre.ToString());
         gameSceneLoop.Enqueue(enemyGenre);

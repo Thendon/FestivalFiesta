@@ -9,9 +9,12 @@ public class SceneLoader : MonoBehaviour
     [SerializeField]
     string menuScene;
     [SerializeField]
-    string gameScene;
+    string[] gameScenePool;
 
-    public string selectedGenre { get; private set; } = "";
+    Queue<Genre> gameSceneLoop = new Queue<Genre>();
+
+    public Genre selectedGenre { get; private set; } = Genre.Metal;
+    public Genre enemyGenre { get; private set; } = Genre.Schlager;
 
     public void Exit()
     {
@@ -47,12 +50,31 @@ public class SceneLoader : MonoBehaviour
     {
         onMainMenu?.Invoke();
         LoadScene(menuScene);
+        gameSceneLoop.Clear();
+    }
+
+    public void LoadNextLevel()
+    {
+        enemyGenre = gameSceneLoop.Dequeue();
+        LoadScene(enemyGenre.ToString());
+        gameSceneLoop.Enqueue(enemyGenre);
     }
 
     public void StartRound(string genre)
     {
-        selectedGenre = genre;
+        selectedGenre = (Genre)Enum.Parse(typeof(Genre), genre);
         onGameStart?.Invoke();
-        LoadScene(gameScene);
+
+        gameSceneLoop.Clear();
+
+        foreach (Genre sceneGenre in Enum.GetValues(typeof(Genre)))
+        {
+            if (sceneGenre == selectedGenre)
+                continue;
+
+            gameSceneLoop.Enqueue(sceneGenre);
+        }
+
+        LoadNextLevel();
     }
 }

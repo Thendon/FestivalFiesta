@@ -11,4 +11,28 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FloScene.unity
     guid: 16507199bbdf5fe468fe9d3ac6f8283b
+  - enabled: 1
+    path: Assets/Scenes/LevelzZz/Blues.unity
+    guid: 23d1a60db86f82448aca5788d2684685
+  - enabled: 1
+    path: Assets/Scenes/LevelzZz/Chiptune.unity
+    guid: 9a0c76ad8e7e7c34d9af04017300dad6
+  - enabled: 1
+    path: Assets/Scenes/LevelzZz/Kindermusik.unity
+    guid: c00aa275856d57742a136468f979d01d
+  - enabled: 1
+    path: Assets/Scenes/LevelzZz/Metal.unity
+    guid: f64a8007b846f0c498fd190a5e36ca71
+  - enabled: 1
+    path: Assets/Scenes/LevelzZz/Orchester.unity
+    guid: 1de7939a4e936344f9cda907d2731b3b
+  - enabled: 1
+    path: Assets/Scenes/LevelzZz/Schlager.unity
+    guid: 1a0eb459ff7972d4baa4b3931a7c98af
+  - enabled: 1
+    path: Assets/Scenes/LevelzZz/Techno.unity
+    guid: a7e8f5a18d1428d4ba0b9bdae975ea4f
+  - enabled: 1
+    path: Assets/Scenes/LevelzZz/Vaporwave.unity
+    guid: 52f95531111f56446b880340786b80df
   m_configObjects: {}

@@ -155,22 +155,17 @@ public class BeatSystem : MonoBehaviour
                         BeatType beatType = BeatType.Error;
                         MarkerType markerType = MarkerType.Error;
 
-                        string[] tokens = stringName.Split('_');
-                        Debug.Assert(tokens.Length == 2, "Marker does not have required format: " + stringName);
-
-                        switch (tokens[0])
+                        if (stringName.StartsWith("StartRegion"))
                         {
-                            case "Drum": beatType = BeatType.Drums; break;
-                            case "Melody": beatType = BeatType.Melody; break;
-                            default: Debug.LogError("Unknown beat type for marker" + stringName); break;
+                            markerType = MarkerType.StartRegion;
                         }
-
-                        switch (tokens[1])
+                        else if (stringName.StartsWith("EndRegion"))
                         {
-                            case "TapMarker": markerType = MarkerType.Tap; break;
-                            case "StartRegion": markerType = MarkerType.StartRegion; break;
-                            case "EndRegion": markerType = MarkerType.EndRegion; break;
-                            default: Debug.LogError("Unknown marker type for marker" + stringName); break;
+                            markerType = MarkerType.EndRegion;
+                        }
+                        else if (stringName.StartsWith("Tap"))
+                        {
+                            markerType = MarkerType.Tap;
                         }
 
                         timelineInfo.beatMarkerUpdate = true;
@@ -207,7 +202,7 @@ public class BeatSystem : MonoBehaviour
                 BeatType beatType = timelineInfo.beatTypes[i];
                 MarkerType markerType = timelineInfo.markerTypes[i];
                 float callbackTime = timelineInfo.callbackTime[i];
-                markerEvent?.Invoke(beatType, markerType, callbackTime);
+                markerEvent?.Invoke(BeatType.Melody, markerType, callbackTime);
             }
             
             timelineInfo.beatMarkerUpdate = false;

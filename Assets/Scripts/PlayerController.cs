@@ -165,10 +165,6 @@ public class PlayerController : MonoBehaviour
 
         if (aimDirection.sqrMagnitude > 0)
         {
-            aimDirection.y = 0;
-            aimDirection.Normalize();
-            cannonTransform.localRotation = Quaternion.LookRotation(-aimDirection);
-            /*
             float signedAngle = Vector3.SignedAngle(cannonTransform.forward, aimDirection, Vector3.up);
             float absAngle = Mathf.Abs(signedAngle);
 
@@ -182,7 +178,7 @@ public class PlayerController : MonoBehaviour
                 cannonChangeValue *= -1.0f;
             }
 
-            cannonTransform.Rotate(Vector3.up, cannonChangeValue);*/
+            cannonTransform.Rotate(Vector3.up, cannonChangeValue);
         }
 
 

@@ -16,6 +16,12 @@ public class VehicleSoundController : MonoBehaviour
     [SerializeField, Range(MIN_LOAD, MAX_LOAD)]
     private float load;
 
+    public float engineMaxRPM = 1000f;
+    public float engineRampUpSpeed = 10f;
+
+
+    private float targetRPM;
+
     void Awake()
     {
         instance = FMODUnity.RuntimeManager.CreateInstance("event:/Vehicles/Car Engine");
@@ -45,6 +51,14 @@ public class VehicleSoundController : MonoBehaviour
 
     void Update()
     {
+        float x = Mathf.Abs(Input.GetAxis("Horizontal"));
+        x += Mathf.Abs(Input.GetAxis("Vertical"));
+        x = Mathf.Clamp01(x);
+
+        targetRPM = x * engineMaxRPM;
+        float i = Mathf.Clamp01(engineRampUpSpeed * Time.deltaTime);
+        motorRPM = Mathf.Lerp(motorRPM, targetRPM, i);
+
         instance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         instance.setParameterByName("parameter:/Vehicles/Car Engine/RPM", motorRPM);
         instance.setParameterByName("parameter:/Vehicles/Load", load);

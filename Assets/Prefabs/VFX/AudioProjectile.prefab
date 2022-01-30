@@ -142,7 +142,7 @@ MonoBehaviour:
   - {r: 21.112127, g: 7.0260434, b: 1.4738647, a: 1}
   - {r: 2.6675434, g: 1.5474855, b: 21.112133, a: 1}
   - {r: 1.5474855, g: 21.112133, b: 19.17799, a: 1}
-  maxHeightBand: 2
+  maxHeightBand: 4
   minHeightBand: 1
   colorBoost: 0.25
   rotationSpeed: 300

@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    static SceneLoader instance = null;
+
     [SerializeField]
     string menuScene;
     [SerializeField]
@@ -44,7 +47,6 @@ public class SceneLoader : MonoBehaviour
 #endif
     }
 
-    Scene currentScene;
     public Action onGameStart;
     public Action onMainMenu;
     public Action onLevelChanged;
@@ -52,7 +54,14 @@ public class SceneLoader : MonoBehaviour
 
     void Awake()
     {
-        currentScene = SceneManager.GetActiveScene();
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+
         SceneManager.sceneLoaded += OnSceneLoaded;
         DontDestroyOnLoad(this);
 
@@ -69,7 +78,6 @@ public class SceneLoader : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        currentScene = scene;
         Debug.Log(scene.name);
         if (scene.name != menuScene)
         {
@@ -108,7 +116,17 @@ public class SceneLoader : MonoBehaviour
 
         gameSceneLoop.Clear();
 
-        foreach (Genre sceneGenre in Enum.GetValues(typeof(Genre)))
+        var scenes = Enum.GetValues(typeof(Genre)).Cast<Genre>().ToList();
+        Genre tempGO;
+        for (int i = 0; i < scenes.Count - 1; i++)
+        {
+            int rnd = UnityEngine.Random.Range(i, scenes.Count);
+            tempGO = scenes[rnd];
+            scenes[rnd] = scenes[i];
+            scenes[i] = tempGO;
+        }
+
+        foreach (Genre sceneGenre in scenes)
         {
             if (sceneGenre == selectedGenre)
                 continue;

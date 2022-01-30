@@ -97,6 +97,7 @@ public class PlayerController : MonoBehaviour
         }
 
         rigidBody = GetComponent<Rigidbody>();
+        rigidBody.centerOfMass = new Vector3(0, .1f, 0);
 
 
         levelState = FindObjectOfType<LevelState>();

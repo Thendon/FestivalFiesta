@@ -11,7 +11,7 @@ public class HighscoreScript : MonoBehaviour
     public TMPro.TMP_Text text;
     public GameObject scoreObject;
     public BeatMiniGame miniGame;
-
+    public bool end = false;
     public int highscore =0;
     void Start()
     {
@@ -33,9 +33,10 @@ public class HighscoreScript : MonoBehaviour
             text.text = highscore.ToString();
             try
             {
-                if (levelState.win)
+                if (levelState.win && end == false)
                 {
                     onLevelSuccess();
+                    StartCoroutine(onWin());
                 }
             }
             catch (Exception e)
@@ -55,13 +56,14 @@ public class HighscoreScript : MonoBehaviour
     public void onLevelSuccess()
     {
         highscore += levelState.KilledEnemies*5;
+        end = true;
     }
 
     public IEnumerator onWin()
     {
   
-        yield return new WaitForSeconds(5);
         text.color = Color.red;
+        yield return new WaitForSeconds(5);
         yield return new WaitForSeconds(5);
 
         sceneLoader.LoadNextLevel();

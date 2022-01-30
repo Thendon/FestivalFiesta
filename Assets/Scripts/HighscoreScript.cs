@@ -46,7 +46,7 @@ public class HighscoreScript : MonoBehaviour
         sceneLoader.LoadNextLevel();
     }
 
-    public void addRanking(BeatMiniGame.HitRanking ranking)
+    public void addRanking(BeatMiniGame.HitRanking ranking, BeatSystem.MarkerType markerType)
     {
         Debug.Log("ranking erkannt");
         switch (ranking)

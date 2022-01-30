@@ -70,8 +70,6 @@ public class PlayerController : MonoBehaviour
 
     public void ReceiveDamage(uint value)
     {
-        
-
         if (currentPlayerLife <= value)
         {
             Debug.Log("Game over");
@@ -102,7 +100,9 @@ public class PlayerController : MonoBehaviour
 
 
         levelState = FindObjectOfType<LevelState>();
-        FindObjectOfType<BeatMiniGame>().onHitMarker += OnBeatGameHit;
+        BeatMiniGame miniGame = FindObjectOfType<BeatMiniGame>();
+        miniGame.onHitMarker += OnBeatGameHit;
+        miniGame.onEndMarker += OnEndMarker;
     }
 
     void Update()
@@ -288,4 +288,12 @@ public class PlayerController : MonoBehaviour
             hasHitThisFrame = true;
     }
 
+    public void OnEndMarker()
+    {
+        if (beamGameObject != null)
+        {
+            Destroy(beamGameObject.gameObject);
+            beamGameObject = null;
+        }
+    }
 }

@@ -47,6 +47,8 @@ public class SceneLoader : MonoBehaviour
     Scene currentScene;
     public Action onGameStart;
     public Action onMainMenu;
+    public Action onLevelChanged;
+    public Action onLevelSuccess;
 
     void Awake()
     {
@@ -63,6 +65,11 @@ public class SceneLoader : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         currentScene = scene;
+            Debug.Log(scene.name);
+        if (scene.name != menuScene)
+        {
+        onLevelChanged?.Invoke();
+        }
     }
 
     void LoadScene(string scenename)
@@ -80,6 +87,7 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadNextLevel()
     {
+        //onLevelSuccess?.Invoke();
         enemyGenre = gameSceneLoop.Dequeue();
         LoadScene(enemyGenre.ToString());
         gameSceneLoop.Enqueue(enemyGenre);

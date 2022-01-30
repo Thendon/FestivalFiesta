@@ -40,7 +40,7 @@ public class LevelState : MonoBehaviour
     public void EnemieDied()
     {
         _killedEnemies += 1;
-        Progress += .025f;
+        Progress += .01f;
     }
 
     public void PlayerGotDamage()

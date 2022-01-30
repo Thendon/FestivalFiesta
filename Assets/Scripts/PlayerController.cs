@@ -70,8 +70,6 @@ public class PlayerController : MonoBehaviour
 
     public void ReceiveDamage(uint value)
     {
-        
-
         if (currentPlayerLife <= value)
         {
             Debug.Log("Game over");

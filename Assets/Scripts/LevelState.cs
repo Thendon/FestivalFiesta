@@ -31,7 +31,7 @@ public class LevelState : MonoBehaviour
         musicManagerProgress = Mathf.Lerp(musicManagerProgress, Progress, i);
         musicManager.progress = musicManagerProgress;
 
-        if (_killedEnemies >= 40)
+        if (Progress >=1)
         {
             win = true;
         }

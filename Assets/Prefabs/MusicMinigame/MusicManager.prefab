@@ -91,6 +91,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eba7e3024525ac4c95e2719a42e5301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fmodEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!114 &9038537701739763400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,8 +112,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicManager: {fileID: 7817032425122268819}
   sampleCountPower: 9
-  audioProfile: 0
-  channel: 0
+  audioProfile: 5
+  channel: 2
   bandDecrease1: 0.005
   bandDecrease2: 1.2
   samplesLeft: []

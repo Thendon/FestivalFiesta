@@ -18,7 +18,7 @@ public class AudioBeam : MonoBehaviour
 
     private void Awake()
     {
-        sceneLoader = GetComponent<SceneLoader>();
+        sceneLoader = FindObjectOfType<SceneLoader>();
         lineRenderer = GetComponent<LineRenderer>();
     }
 

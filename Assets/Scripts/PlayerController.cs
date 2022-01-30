@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using HitRanking = BeatMiniGame.HitRanking;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -58,6 +59,8 @@ public class PlayerController : MonoBehaviour
 
     private ControllerType controllerType;
 
+    private HitRanking lastHitRanking = HitRanking.Good;
+
     public void ReceiveDamage(uint value)
     {
         if(currentPlayerLife <= value)
@@ -85,6 +88,9 @@ public class PlayerController : MonoBehaviour
         }
 
         rigidBody = GetComponent<Rigidbody>();
+
+
+        FindObjectOfType<BeatMiniGame>().onHitMarker += OnBeatGameHit;
     }
 
     void Update()
@@ -172,6 +178,8 @@ public class PlayerController : MonoBehaviour
                         GameObject projectileGameObject = Instantiate(projectilePrefab);
                         projectileGameObject.transform.position = weaponSpawnTransform.position;
                         projectileGameObject.transform.LookAt(weaponSpawnTransform.position + weaponSpawnTransform.forward, Vector3.up);
+
+                        SetDamageDealComponent(projectileGameObject, GetDamageMultiplier());
                     }
                     break;
                 case FireType.Beam:
@@ -199,4 +207,35 @@ public class PlayerController : MonoBehaviour
             Destroy(beamGameObject);
         }
     }
+
+    public void SetDamageDealComponent(GameObject obj, float val)
+    {
+        DamageDealComponent d = obj.GetComponent<DamageDealComponent>();
+        if (d != null)
+        {
+            d.damageMultiplier = val;
+        }
+    }
+
+    public float GetDamageMultiplier()
+    {
+        switch (lastHitRanking)
+        {
+            case HitRanking.Good:
+                return 1f;
+            case HitRanking.Medium:
+                return .75f;
+            case HitRanking.Bad:
+                return .5f;
+            case HitRanking.NoHit:
+                return .25f;
+        }
+        return 1f;
+    }
+    
+    public void OnBeatGameHit(HitRanking ranking)
+    {
+
+    }
+
 }

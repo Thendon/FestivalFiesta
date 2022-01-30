@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +8,12 @@ using MarkerType = BeatSystem.MarkerType;
 
 public class BeatMiniGame : MonoBehaviour
 {
-    enum HitRanking
+    public enum HitRanking
     {
         Good,
         Medium,
-        Bad
+        Bad,
+        NoHit
     }
 
     public float invisibleSize;
@@ -42,6 +44,8 @@ public class BeatMiniGame : MonoBehaviour
     private float speedPerSecond;
 
     private float delayOffset;
+
+    public Action<HitRanking> onHitMarker;
 
     // Start is called before the first frame update
     void Start()
@@ -130,18 +134,25 @@ public class BeatMiniGame : MonoBehaviour
                 if (distance < goodRegion.rect.width / 2.0f)
                 {
                     hit = true;
+                    onHitMarker?.Invoke(HitRanking.Good);
 
                     marker.GetComponent<Image>().color = Color.green;
                 }
                 else if (distance < mediumRegion.rect.width / 2.0f)
                 {
                     hit = true;
+                    onHitMarker?.Invoke(HitRanking.Medium);
                     marker.GetComponent<Image>().color = Color.yellow;
                 }
                 else if (distance < badRegion.rect.width / 2.0f)
                 {
                     hit = true;
+                    onHitMarker?.Invoke(HitRanking.Bad);
                     marker.GetComponent<Image>().color = Color.red;
+                } 
+                else
+                {
+                    onHitMarker?.Invoke(HitRanking.NoHit);
                 }
 
                 if (hit)

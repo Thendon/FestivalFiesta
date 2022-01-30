@@ -297,6 +297,75 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &101785403
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 00322946c13479f42b8bffbbb4325bd8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 00322946c13479f42b8bffbbb4325bd8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.99
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 00322946c13479f42b8bffbbb4325bd8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.55
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 00322946c13479f42b8bffbbb4325bd8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 00322946c13479f42b8bffbbb4325bd8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 00322946c13479f42b8bffbbb4325bd8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 00322946c13479f42b8bffbbb4325bd8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 00322946c13479f42b8bffbbb4325bd8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 00322946c13479f42b8bffbbb4325bd8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 00322946c13479f42b8bffbbb4325bd8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 00322946c13479f42b8bffbbb4325bd8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 00322946c13479f42b8bffbbb4325bd8,
+        type: 3}
+      propertyPath: m_Name
+      value: metal_statue
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 00322946c13479f42b8bffbbb4325bd8, type: 3}
 --- !u!1 &219587192
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,6 +629,7 @@ MonoBehaviour:
   mediumRegion: {fileID: 1835784338}
   badRegion: {fileID: 1520699205}
   currentBeatType: 1
+  lastMarkerType: 0
   tapMarkerPrefab: {fileID: 2083590350992737627, guid: 8edbc7ed6ec54bc4b8b22d0260306930,
     type: 3}
   regionMarkerPrefab: {fileID: 3450331722410321681, guid: 643eb7ba15c869c45a37d48c78b95115,
@@ -1298,6 +1368,13 @@ MonoBehaviour:
       Data3: -844130635
       Data4: 1448215187
     Path: event:/Music/Fight
+  fmodEventOutro:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   progress: 1
   volume: 0.567
   volumePath: Music Volume

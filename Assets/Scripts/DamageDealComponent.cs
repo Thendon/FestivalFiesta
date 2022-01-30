@@ -20,7 +20,8 @@ public class DamageDealComponent : MonoBehaviour
         if (d != null)
         {
             d.GetDamage(baseDamage * damageMultiplier);
-            Destroy(toDestroyOnCollision);
+            if (toDestroyOnCollision != null)
+                Destroy(toDestroyOnCollision);
         }
     }
 

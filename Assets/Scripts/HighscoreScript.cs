@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class HighscoreScript : MonoBehaviour
 {
+    static HighscoreScript instance = null;
 
     public LevelState levelState;
     private SceneLoader sceneLoader;
@@ -14,6 +15,16 @@ public class HighscoreScript : MonoBehaviour
     public bool end = false;
     public int highscore =0;
     public bool menu = false;
+    public void Awake()
+    {
+        if (instance == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+    }
 
     void Start()
     {

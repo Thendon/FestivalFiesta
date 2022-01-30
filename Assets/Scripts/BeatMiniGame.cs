@@ -25,14 +25,21 @@ public class BeatMiniGame : MonoBehaviour
     public RectTransform badRegion;
 
     public BeatType currentBeatType;
+    public MarkerType lastMarkerType;
 
     public GameObject tapMarkerPrefab;
     public GameObject regionMarkerPrefab;
 
     public float timeOffset;
 
-    private Queue<RectTransform> activeMarkers = new Queue<RectTransform>();
-    private Queue<RectTransform> inactiveMarkers = new Queue<RectTransform>();
+    struct Marker
+    {
+        public RectTransform rect;
+        public MarkerType type;
+    }
+
+    private Queue<Marker> activeMarkers = new Queue<Marker>();
+    private Queue<Marker> inactiveMarkers = new Queue<Marker>();
 
     private RectTransform currentRegion;
     private float regionStartTime;
@@ -45,7 +52,7 @@ public class BeatMiniGame : MonoBehaviour
 
     private float delayOffset;
 
-    public Action<HitRanking> onHitMarker;
+    public Action<HitRanking, MarkerType> onHitMarker;
 
     // Start is called before the first frame update
     void Start()
@@ -78,7 +85,10 @@ public class BeatMiniGame : MonoBehaviour
                         markerTransform.anchoredPosition = new Vector2(invisibleSize - positionOffset - delayOffset, 0);
                         newTapMarker.name = "Marker_" + markerIndex++;
 
-                        activeMarkers.Enqueue(markerTransform);
+                        Marker marker = new Marker();
+                        marker.rect = markerTransform;
+                        marker.type = MarkerType.Tap;
+                        activeMarkers.Enqueue(marker);
                     }
                     break;
                 case MarkerType.StartRegion:
@@ -93,7 +103,10 @@ public class BeatMiniGame : MonoBehaviour
                         markerTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0.0f);
                         newTapMarker.name = "Marker_" + markerIndex++;
 
-                        activeMarkers.Enqueue(markerTransform);
+                        Marker marker = new Marker();
+                        marker.rect = markerTransform;
+                        marker.type = MarkerType.StartRegion;
+                        activeMarkers.Enqueue(marker);
                         currentRegion = markerTransform;
                     }
                     break;
@@ -117,42 +130,42 @@ public class BeatMiniGame : MonoBehaviour
         }
 
         // Update positions
-        foreach (RectTransform marker in activeMarkers)
-            marker.anchoredPosition += Vector2.left * Time.deltaTime * speedPerSecond;
-        foreach (RectTransform marker in inactiveMarkers)
-            marker.anchoredPosition += Vector2.left * Time.deltaTime * speedPerSecond;
+        foreach (var marker in activeMarkers)
+            marker.rect.anchoredPosition += Vector2.left * Time.deltaTime * speedPerSecond;
+        foreach (var marker in inactiveMarkers)
+            marker.rect.anchoredPosition += Vector2.left * Time.deltaTime * speedPerSecond;
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && activeMarkers.Count > 0)
         {
-            RectTransform marker = activeMarkers.Peek();
+            Marker marker = activeMarkers.Peek();
 
-            if(marker.anchoredPosition.x < 0)
+            if(marker.rect.anchoredPosition.x < 0)
             {
-                float distance = Mathf.Abs(-marker.anchoredPosition.x - (rectTransform.rect.width / 2.0f));
+                float distance = Mathf.Abs(-marker.rect.anchoredPosition.x - (rectTransform.rect.width / 2.0f));
 
                 bool hit = false;
                 if (distance < goodRegion.rect.width / 2.0f)
                 {
                     hit = true;
-                    onHitMarker?.Invoke(HitRanking.Good);
+                    onHitMarker?.Invoke(HitRanking.Good, marker.type);
 
-                    marker.GetComponent<Image>().color = Color.green;
+                    marker.rect.GetComponent<Image>().color = Color.green;
                 }
                 else if (distance < mediumRegion.rect.width / 2.0f)
                 {
                     hit = true;
-                    onHitMarker?.Invoke(HitRanking.Medium);
-                    marker.GetComponent<Image>().color = Color.yellow;
+                    onHitMarker?.Invoke(HitRanking.Medium, marker.type);
+                    marker.rect.GetComponent<Image>().color = Color.yellow;
                 }
                 else if (distance < badRegion.rect.width / 2.0f)
                 {
                     hit = true;
-                    onHitMarker?.Invoke(HitRanking.Bad);
-                    marker.GetComponent<Image>().color = Color.red;
+                    onHitMarker?.Invoke(HitRanking.Bad, marker.type);
+                    marker.rect.GetComponent<Image>().color = Color.red;
                 } 
                 else
                 {
-                    onHitMarker?.Invoke(HitRanking.NoHit);
+                    onHitMarker?.Invoke(HitRanking.NoHit, marker.type);
                 }
 
                 if (hit)
@@ -167,9 +180,9 @@ public class BeatMiniGame : MonoBehaviour
         
 
         int toDequeue = 0;
-        foreach (RectTransform marker in activeMarkers)
+        foreach (var marker in activeMarkers)
         {
-            if (marker.anchoredPosition.x <= -(rectTransform.rect.width / 2 + badRegion.rect.width / 2))
+            if (marker.rect.anchoredPosition.x <= -(rectTransform.rect.width / 2 + badRegion.rect.width / 2))
             {
                 toDequeue++;
             }
@@ -177,15 +190,15 @@ public class BeatMiniGame : MonoBehaviour
 
         for (int i = 0; i < toDequeue; i++)
         {
-            RectTransform dequeuedMarker = activeMarkers.Dequeue();
-            dequeuedMarker.GetComponent<Image>().color = Color.black;
+            var dequeuedMarker = activeMarkers.Dequeue();
+            dequeuedMarker.rect.GetComponent<Image>().color = Color.black;
             inactiveMarkers.Enqueue(dequeuedMarker);
         }
 
         toDequeue = 0;
-        foreach (RectTransform marker in inactiveMarkers)
+        foreach (var marker in inactiveMarkers)
         {
-            if(marker.anchoredPosition.x + marker.rect.width <= rectTransform.rect.x)
+            if(marker.rect.anchoredPosition.x + marker.rect.rect.width <= rectTransform.rect.x)
             {
                 toDequeue++;
             }
@@ -193,7 +206,7 @@ public class BeatMiniGame : MonoBehaviour
 
         for (int i = 0; i < toDequeue; i++)
         {
-            GameObject toDelete = inactiveMarkers.Dequeue().gameObject;
+            GameObject toDelete = inactiveMarkers.Dequeue().rect.gameObject;
             toDelete.name = "Delete";
             Destroy(toDelete.gameObject);
         }

@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject bombPrefab;
 
-    private GameObject beamGameObject;
+    private AudioBeam beamGameObject;
 
     private Rigidbody rigidBody;
 
@@ -65,6 +65,8 @@ public class PlayerController : MonoBehaviour
     private LevelState levelState;
 
     public Action onGoodHit;
+
+    bool hasHitThisFrame = false;
 
     public void ReceiveDamage(uint value)
     {
@@ -179,8 +181,9 @@ public class PlayerController : MonoBehaviour
         }
         
 
-        if (Input.GetButtonDown("Fire1"))
+        if (hasHitThisFrame)
         {
+            hasHitThisFrame = false;
             switch (currentFireType)
             {
                 case FireType.Projectile:
@@ -194,10 +197,14 @@ public class PlayerController : MonoBehaviour
                     break;
                 case FireType.Beam:
                     {
-                        beamGameObject = Instantiate(beamPrefab);
+                        if (beamGameObject != null)
+                            Destroy(beamGameObject.gameObject);
+
+                        beamGameObject = Instantiate(beamPrefab).GetComponent<AudioBeam>();
                         beamGameObject.transform.position = weaponSpawnTransform.position;
-                        beamGameObject.transform.LookAt(weaponSpawnTransform.position + weaponSpawnTransform.forward, Vector3.up);
-                        beamGameObject.transform.SetParent(weaponSpawnTransform);
+
+                        //beamGameObject.transform.LookAt(weaponSpawnTransform.position + weaponSpawnTransform.forward, Vector3.up);
+                        //beamGameObject.transform.SetParent(weaponSpawnTransform);
                     }
                     break;
                 case FireType.Bomb:
@@ -219,7 +226,22 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetButtonUp("Fire1") && currentFireType == FireType.Beam)
         {
-            Destroy(beamGameObject);
+            Destroy(beamGameObject.gameObject);
+            beamGameObject = null;
+        }
+
+
+        if (beamGameObject != null)
+        {
+            beamGameObject.SetStart(weaponSpawnTransform.position);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000.0f))
+                beamGameObject.SetTarget(hit.point);
+        }
+        if (beamGameObject != null && currentFireType != FireType.Beam)
+        {
+            Destroy(beamGameObject.gameObject);
+            beamGameObject = null;
         }
     }
 
@@ -247,10 +269,23 @@ public class PlayerController : MonoBehaviour
         }
         return 1f;
     }
-    
-    public void OnBeatGameHit(HitRanking ranking)
+
+    public void OnBeatGameHit(HitRanking ranking, BeatSystem.MarkerType markerType)
     {
         lastHitRanking = ranking;
+
+        switch (markerType)
+        {
+            case BeatSystem.MarkerType.StartRegion:
+                currentFireType = FireType.Beam;
+                break;
+            default:
+                currentFireType = FireType.Projectile;
+                break;
+        }
+
+        if (ranking != HitRanking.NoHit)
+            hasHitThisFrame = true;
     }
 
 }

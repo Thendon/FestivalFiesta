@@ -94,6 +94,7 @@ public class AudioData : MonoBehaviour
         sampleCount = 1 << sampleCountPower;
         sampleCount = Mathf.Clamp(512, sampleCount, 8192);
         samplesLeft = new float[sampleCount];
+        samplesRight = new float[sampleCount];
 
         freqBand8 = new float[8];
         freqBand8Buffer = new float[8];

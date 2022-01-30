@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelState : MonoBehaviour
 {
 
-    public float Progress { get; private set; }
+    public float Progress { get; private set; } = 0f;
     private float musicManagerProgress;
     public float progressRampUpSpeed = 1f;
 
@@ -31,7 +31,7 @@ public class LevelState : MonoBehaviour
         musicManagerProgress = Mathf.Lerp(musicManagerProgress, Progress, i);
         musicManager.progress = musicManagerProgress;
 
-        if (_killedEnemies >= 40)
+        if (Progress >=1)
         {
             win = true;
         }

@@ -65,10 +65,14 @@ public class SceneLoader : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         currentScene = scene;
-            Debug.Log(scene.name);
+        Debug.Log(scene.name);
         if (scene.name != menuScene)
         {
-        onLevelChanged?.Invoke();
+            onLevelChanged?.Invoke();
+            MusicManager musicManager = FindObjectOfType<MusicManager>();
+            musicManager.playerGenre = selectedGenre;
+            musicManager.enemyGenre = enemyGenre;
+
         }
     }
 

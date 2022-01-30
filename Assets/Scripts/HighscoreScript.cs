@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,10 +27,21 @@ public class HighscoreScript : MonoBehaviour
 
     void Update()
     {
-        text.text = highscore.ToString();
-        if (levelState.win)
+        if (levelState != null)
         {
-            onLevelSuccess();
+            Debug.Log(levelState.KilledEnemies);
+            text.text = highscore.ToString();
+            try
+            {
+                if (levelState.win)
+                {
+                    onLevelSuccess();
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
         }
     }
 
@@ -43,12 +55,21 @@ public class HighscoreScript : MonoBehaviour
     public void onLevelSuccess()
     {
         highscore += levelState.KilledEnemies*5;
+    }
+
+    public IEnumerator onWin()
+    {
+  
+        yield return new WaitForSeconds(5);
+        text.color = Color.red;
+        yield return new WaitForSeconds(5);
+
         sceneLoader.LoadNextLevel();
     }
 
     public void addRanking(BeatMiniGame.HitRanking ranking, BeatSystem.MarkerType markerType)
     {
-        Debug.Log("ranking erkannt");
+
         switch (ranking)
         {
             case BeatMiniGame.HitRanking.Good:      highscore += 5;

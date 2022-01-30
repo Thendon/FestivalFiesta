@@ -36,6 +36,7 @@ public class BeatMiniGame : MonoBehaviour
     {
         public RectTransform rect;
         public MarkerType type;
+        public bool fireEndRegionEvent;
     }
 
     private Queue<Marker> activeMarkers = new Queue<Marker>();
@@ -53,6 +54,7 @@ public class BeatMiniGame : MonoBehaviour
     private float delayOffset;
 
     public Action<HitRanking, MarkerType> onHitMarker;
+    public Action onEndMarker;
 
     // Start is called before the first frame update
     void Start()
@@ -112,7 +114,21 @@ public class BeatMiniGame : MonoBehaviour
                     break;
                 case MarkerType.EndRegion:
                     {
+                        GameObject newTapMarker = Instantiate(regionMarkerPrefab);
+                        newTapMarker.transform.SetParent(transform);
+                        RectTransform markerTransform = newTapMarker.transform as RectTransform;
+                        markerTransform.anchorMin = new Vector2(1, 0.5f);
+                        markerTransform.anchorMax = new Vector2(1, 0.5f);
+                        float positionOffset = speedPerSecond * (Time.realtimeSinceStartup - callbackTime);
+                        markerTransform.anchoredPosition = new Vector2(invisibleSize - positionOffset - delayOffset, 0);
+                        markerTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0.0f);
+                        markerTransform.GetComponent<Image>().color = new Color(0, 0, 0, 0);
 
+                        Marker marker = new Marker();
+                        marker.rect = markerTransform;
+                        marker.type = MarkerType.EndRegion;
+                        marker.fireEndRegionEvent = true;
+                        activeMarkers.Enqueue(marker);
                         currentRegion = null;
                     }
                     break;
@@ -135,49 +151,58 @@ public class BeatMiniGame : MonoBehaviour
         foreach (var marker in inactiveMarkers)
             marker.rect.anchoredPosition += Vector2.left * Time.deltaTime * speedPerSecond;
 
-        if (Input.GetButtonDown("Fire1") && activeMarkers.Count > 0)
+        if ( activeMarkers.Count > 0)
         {
             Marker marker = activeMarkers.Peek();
+            if (marker.type != MarkerType.EndRegion && Input.GetButtonDown("Fire1"))
+            {
+                if (marker.rect.anchoredPosition.x < 0)
+                {
+                    float distance = Mathf.Abs(-marker.rect.anchoredPosition.x - (rectTransform.rect.width / 2.0f));
 
-            if(marker.rect.anchoredPosition.x < 0)
+                    bool hit = false;
+                    if (distance < goodRegion.rect.width / 2.0f)
+                    {
+                        hit = true;
+                        onHitMarker?.Invoke(HitRanking.Good, marker.type);
+
+                        marker.rect.GetComponent<Image>().color = Color.green;
+                    }
+                    else if (distance < mediumRegion.rect.width / 2.0f)
+                    {
+                        hit = true;
+                        onHitMarker?.Invoke(HitRanking.Medium, marker.type);
+                        marker.rect.GetComponent<Image>().color = Color.yellow;
+                    }
+                    else if (distance < badRegion.rect.width / 2.0f)
+                    {
+                        hit = true;
+                        onHitMarker?.Invoke(HitRanking.Bad, marker.type);
+                        marker.rect.GetComponent<Image>().color = Color.red;
+                    }
+                    else
+                    {
+                        onHitMarker?.Invoke(HitRanking.NoHit, marker.type);
+                    }
+
+                    if (hit)
+                    {
+                        inactiveMarkers.Enqueue(activeMarkers.Dequeue());
+                    }
+
+                    //Debug.Break();
+                }
+            }
+            else if (marker.type == MarkerType.EndRegion && marker.fireEndRegionEvent)
             {
                 float distance = Mathf.Abs(-marker.rect.anchoredPosition.x - (rectTransform.rect.width / 2.0f));
-
-                bool hit = false;
                 if (distance < goodRegion.rect.width / 2.0f)
                 {
-                    hit = true;
-                    onHitMarker?.Invoke(HitRanking.Good, marker.type);
-
-                    marker.rect.GetComponent<Image>().color = Color.green;
+                    onEndMarker?.Invoke();
+                    marker.fireEndRegionEvent = false;
                 }
-                else if (distance < mediumRegion.rect.width / 2.0f)
-                {
-                    hit = true;
-                    onHitMarker?.Invoke(HitRanking.Medium, marker.type);
-                    marker.rect.GetComponent<Image>().color = Color.yellow;
-                }
-                else if (distance < badRegion.rect.width / 2.0f)
-                {
-                    hit = true;
-                    onHitMarker?.Invoke(HitRanking.Bad, marker.type);
-                    marker.rect.GetComponent<Image>().color = Color.red;
-                } 
-                else
-                {
-                    onHitMarker?.Invoke(HitRanking.NoHit, marker.type);
-                }
-
-                if (hit)
-                {
-                    inactiveMarkers.Enqueue(activeMarkers.Dequeue());
-                }
-
-                //Debug.Break();
             }
-        }
-
-        
+        }        
 
         int toDequeue = 0;
         foreach (var marker in activeMarkers)

@@ -60,7 +60,10 @@ public class SceneLoader : MonoBehaviour
         {
             genrePalette.Add(palette.genre, palette);
         }
+    }
 
+    private void Start()
+    {
         FindObjectOfType<MusicManager>().StartMusic();
     }
 

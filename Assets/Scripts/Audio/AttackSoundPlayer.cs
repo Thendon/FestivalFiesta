@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AttackSoundPlayer : MonoBehaviour
 {
-    public FMODUnity.EventReference fmodEvent;
 
     string attackBase = "event:/Attack/";
     string eventString;

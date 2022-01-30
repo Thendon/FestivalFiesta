@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelState : MonoBehaviour
 {
 
-    public float Progress { get; private set; } = 0f;
+    public float Progress { get; private set; } = 0.1f;
     private float musicManagerProgress;
     public float progressRampUpSpeed = 1f;
 

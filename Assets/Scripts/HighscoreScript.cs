@@ -13,6 +13,8 @@ public class HighscoreScript : MonoBehaviour
     public BeatMiniGame miniGame;
     public bool end = false;
     public int highscore =0;
+    public bool menu = false;
+
     void Start()
     {
         text = scoreObject.GetComponent<TMPro.TMP_Text>();
@@ -23,13 +25,13 @@ public class HighscoreScript : MonoBehaviour
 
         sceneLoader.onLevelChanged += onLevelChanged;
         sceneLoader.onLevelSuccess += onLevelSuccess;
+        sceneLoader.onGameStart += resetScore;
     }
 
     void Update()
     {
         if (levelState != null)
         {
-            Debug.Log(levelState.KilledEnemies);
             text.text = highscore.ToString();
             try
             {
@@ -43,7 +45,20 @@ public class HighscoreScript : MonoBehaviour
             {
 
             }
+
+            if (levelState.Progress <= 0 && menu ==false)
+            {
+                StartCoroutine(onLoose());
+                menu = true;
+            }
         }
+    }
+
+    public void resetScore()
+    {
+        highscore = 0;
+        menu = false;
+        //this.enabled = false;
     }
 
     public void onLevelChanged()
@@ -51,6 +66,7 @@ public class HighscoreScript : MonoBehaviour
         miniGame = FindObjectOfType<BeatMiniGame>();
         levelState = FindObjectOfType<LevelState>();
         miniGame.onHitMarker += addRanking;
+        end = false;
     }
     
     public void onLevelSuccess()
@@ -67,6 +83,14 @@ public class HighscoreScript : MonoBehaviour
         yield return new WaitForSeconds(5);
         text.color = Color.white;
         sceneLoader.LoadNextLevel();
+    }
+
+    public IEnumerator onLoose()
+    {
+        text.color = Color.red;
+        yield return new WaitForSeconds(5);
+        text.color = Color.white;
+        sceneLoader.MainMenu();
     }
 
     public void addRanking(BeatMiniGame.HitRanking ranking, BeatSystem.MarkerType markerType)

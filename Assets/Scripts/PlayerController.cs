@@ -81,6 +81,7 @@ public class PlayerController : MonoBehaviour
         }
 
         levelState.PlayerGotDamage();
+        Debug.Log("Got Damage nice!");
     }
 
     void Start()
@@ -228,8 +229,10 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetButtonUp("Fire1") && currentFireType == FireType.Beam)
         {
             if (beamGameObject != null)
+            {
                 Destroy(beamGameObject.gameObject);
-            beamGameObject = null;
+                beamGameObject = null;
+            }
         }
 
 

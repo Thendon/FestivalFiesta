@@ -62,6 +62,11 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        FindObjectOfType<MusicManager>().StartMusic();
+    }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         currentScene = scene;
@@ -72,7 +77,7 @@ public class SceneLoader : MonoBehaviour
             MusicManager musicManager = FindObjectOfType<MusicManager>();
             musicManager.playerGenre = selectedGenre;
             musicManager.enemyGenre = enemyGenre;
-
+            musicManager.StartMusic();
         }
     }
 

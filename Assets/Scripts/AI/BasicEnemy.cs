@@ -53,7 +53,12 @@ public class BasicEnemy : MonoBehaviour
     }
 
     void Update()
+
+
     {
+        if (Vector3.Magnitude(player.transform.position - transform.position) > 10) 
+                return;
+
         if (!animator.GetBool("InAttackRange"))
         {
             if (Vector3.Magnitude(rigidBody.velocity) < walkSpeed)

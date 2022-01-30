@@ -414,8 +414,8 @@ MonoBehaviour:
     m_Bits: 0
   damageValue: 1
   turnSpeed: 500
-  walkSpeed: 5
-  acceleration: 10
+  walkSpeed: 3
+  acceleration: 8
   player: {fileID: 0}
 --- !u!1 &6071753094780857669
 GameObject:

@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/LevelzZz/Chiptune.unity
     guid: 9a0c76ad8e7e7c34d9af04017300dad6
   - enabled: 1
-    path: Assets/Scenes/LevelzZz/Kindermusik.unity
+    path: Assets/Scenes/LevelzZz/Kinderlieder.unity
     guid: c00aa275856d57742a136468f979d01d
   - enabled: 1
     path: Assets/Scenes/LevelzZz/Metal.unity

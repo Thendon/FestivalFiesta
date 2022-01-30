@@ -165,7 +165,6 @@ public class PlayerController : MonoBehaviour
 
         if (aimDirection.sqrMagnitude > 0)
         {
-            aimDirection.Normalize();
             float signedAngle = Vector3.SignedAngle(cannonTransform.forward, aimDirection, Vector3.up);
             float absAngle = Mathf.Abs(signedAngle);
 
@@ -181,7 +180,7 @@ public class PlayerController : MonoBehaviour
 
             cannonTransform.Rotate(Vector3.up, cannonChangeValue);
         }
-        
+
 
         if (hasHitThisFrame)
         {
@@ -234,7 +233,6 @@ public class PlayerController : MonoBehaviour
                 beamGameObject = null;
             }
         }
-
 
         if (beamGameObject != null)
         {

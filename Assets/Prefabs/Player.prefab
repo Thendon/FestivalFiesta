@@ -328,7 +328,7 @@ MonoBehaviour:
   maxPlayerLife: 10
   currentPlayerLife: 0
   carTurnSpeed: 1400
-  cannonTurnSpeed: 200
+  cannonTurnSpeed: 1000
   maxVelocity: 10
   acceleration: 15
   environmentLayer:

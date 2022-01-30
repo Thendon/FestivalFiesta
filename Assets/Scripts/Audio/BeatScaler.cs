@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BeatScaler : MonoBehaviour
 {
-    public Vector3 scaleNormal;
-    public Vector3 scaleBeat;
+    public Vector3 scaleNormal = Vector3.one;
+    public Vector3 scaleBeat = Vector3.one;
 
     public AnimationCurve scaleCurve;
 

@@ -1551,17 +1551,17 @@ PrefabInstance:
     - target: {fileID: 3215249816784173309, guid: 2db41082cf964eb42825579538b1fc65,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.016712958
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 3215249816784173309, guid: 2db41082cf964eb42825579538b1fc65,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.0010566829
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 3215249816784173309, guid: 2db41082cf964eb42825579538b1fc65,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.0088637285
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 3215249816784173309, guid: 2db41082cf964eb42825579538b1fc65,
         type: 3}
@@ -3271,6 +3271,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   motorRPM: 722
   load: 0
+  engineMaxRPM: 1000
+  engineRampUpSpeed: 10
 --- !u!136 &1713421404
 CapsuleCollider:
   m_ObjectHideFlags: 0

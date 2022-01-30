@@ -27,7 +27,7 @@ public class Damagable : MonoBehaviour
     private void Die()
     {
         onDeath?.Invoke();
-
+        FindObjectOfType<LevelState>().EnemieDied();
         Destroy(this.gameObject);
     }
 }

@@ -22,7 +22,8 @@ public class BasicEnemy : MonoBehaviour
     private Rigidbody rigidBody;
 
     private Animator animator;
-
+    private float damageCooldown =0;
+  
     private void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
@@ -87,5 +88,17 @@ public class BasicEnemy : MonoBehaviour
         }
 
         rigidBody.angularVelocity = new Vector3(0, changeValue, 0);
+
+        if(currentDistance < 3f && damageCooldown <= 0)
+        {
+            DealDamage();
+            damageCooldown = 0.3f;
+        }
+
+        if(damageCooldown>0)
+        damageCooldown -= Time.deltaTime;
+
+
     }
+
 }

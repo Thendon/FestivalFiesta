@@ -239,6 +239,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   motorRPM: 722
   load: 0
+  engineMaxRPM: 1000
+  engineRampUpSpeed: 10
 --- !u!54 &50987839
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1411,11 +1413,18 @@ MonoBehaviour:
       Data3: -844130635
       Data4: 1448215187
     Path: event:/Music/Fight
+  fmodEventOutro:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   progress: 1
   volume: 0.567
   volumePath: Music Volume
-  playerGenre: 0
-  enemyGenre: 6
+  playerGenre: 5
+  enemyGenre: 0
 --- !u!114 &1400159248
 MonoBehaviour:
   m_ObjectHideFlags: 0
